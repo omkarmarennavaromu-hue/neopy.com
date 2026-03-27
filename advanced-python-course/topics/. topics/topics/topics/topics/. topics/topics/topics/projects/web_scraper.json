@@ -1,0 +1,82 @@
+{
+  "web_scraper.json": {
+    "project": {
+      "name": "WebScraper Pro",
+      "description": "Production-ready Python web scraper using requests + BeautifulSoup4 with ethical scraping practices, rate limiting, and data export",
+      "version": "2.0.0",
+      "author": "Data Engineer",
+      "license": "MIT",
+      "tech_stack": ["Python 3.8+", "requests", "beautifulsoup4", "pandas", "lxml"]
+    },
+    "features": [
+      "🌐 Multi-page scraping",
+      "⏱️  Built-in rate limiting",
+      "📊 CSV/JSON export",
+      "🤖 User-Agent rotation",
+      "⚠️  Error handling & retries",
+      "📈 Progress tracking"
+    ],
+    "setup": {
+      "requirements.txt": "requests==2.31.0\\nbeautifulsoup4==4.12.2\\nlxml==4.9.3\\npandas==2.0.3\\ntqdm==4.66.1\\npython-dotenv==1.0.0",
+      "install": "pip install -r requirements.txt\\npip install -e .",
+      "env_setup": "cp .env.example .env"
+    },
+    "robots.txt": {
+      "check": "curl -I https://example.com/robots.txt",
+      "respect": "Always check robots.txt before scraping!"
+    },
+    "scraping_steps": [
+      {
+        "step": 1,
+        "title": "Basic Single Page Scraper",
+        "description": "Extract titles and links from a single page",
+        "code": "import requests\\nfrom bs4 import BeautifulSoup\\nimport time\\n\\n# Basic scraper\\ndef scrape_page(url):\\n    headers = {\\n        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'\\n    }\\n    \\n    response = requests.get(url, headers=headers)\\n    response.raise_for_status()\\n    \\n    soup = BeautifulSoup(response.content, 'html.parser')\\n    \\n    # Find all links with titles\\n    links = soup.find_all('a', href=True)\\n    data = []\\n    \\n    for link in links[:10]:  # Limit to first 10\\n        title = link.get_text(strip=True)[:100]\\n        href = link['href']\\n        data.append({'title': title, 'url': href})\\n    \\n    return data\\n\\n# Usage\\nurl = 'https://example.com'\\nresults = scrape_page(url)\\nprint(results[:3])",
+        "output_sample": "[{'title': 'Example Domain', 'url': 'https://www.iana.org/domains/example'}, ...]"
+      },
+      {
+        "step": 2,
+        "title": "Multi-Page Scraper with Pagination",
+        "description": "Scrape multiple pages with pagination support",
+        "code": "import requests\\nfrom bs4 import BeautifulSoup\\nimport pandas as pd\\nfrom urllib.parse import urljoin, urlparse\\nimport time\\n\\nclass WebScraper:\\n    def __init__(self, base_url, delay=1):\\n        self.base_url = base_url\\n        self.delay = delay\\n        self.session = requests.Session()\\n        self.session.headers.update({\\n            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'\\n        })\\n    \\n    def scrape_paginated(self, max_pages=5):\\n        all_data = []\\n        \\n        for page in range(1, max_pages + 1):\\n            url = f'{self.base_url}?page={page}'\\n            print(f'📄 Scraping page {page}: {url}')\\n            \\n            try:\\n                response = self.session.get(url, timeout=10)\\n                response.raise_for_status()\\n                \\n                soup = BeautifulSoup(response.content, 'lxml')\\n                \\n                # Extract articles/cards\\n                articles = soup.find_all('article', class_='post')\\n                page_data = []\\n                \\n                for article in articles:\\n                    title = article.find('h2', class_='title')\\n                    title = title.get_text(strip=True) if title else 'N/A'\\n                    \\n                    link = article.find('a', href=True)\\n                    link = urljoin(self.base_url, link['href']) if link else 'N/A'\\n                    \\n                    date = article.find('time')\\n                    date = date['datetime'] if date else 'N/A'\\n                    \\n                    page_data.append({\\n                        'title': title,\\n                        'url': link,\\n                        'date': date,\\n                        'page': page\\n                    })\\n                \\n                all_data.extend(page_data)\\n                time.sleep(self.delay)\\n                \\n            except Exception as e:\\n                print(f'❌ Error on page {page}: {e}')\\n                continue\\n        \\n        return all_data\\n\\n# Usage\\nscraper = WebScraper('https://example-news-site.com/blog', delay=2)\\ndata = scraper.scrape_paginated(max_pages=3)\\ndf = pd.DataFrame(data)\\ndf.to_csv('scraped_data.csv', index=False)\\nprint(f'✅ Saved {len(data)} records to scraped_data.csv')",
+        "output_sample": "📄 Scraping page 1: https://example-news-site.com/blog?page=1\n✅ Saved 45 records to scraped_data.csv"
+      },
+      {
+        "step": 3,
+        "title": "Advanced Scraper with Rate Limiting & Error Handling",
+        "description": "Production-ready scraper with retries and user-agent rotation",
+        "code": "import requests\\nfrom bs4 import BeautifulSoup\\nimport pandas as pd\\nimport time\\nfrom typing import List, Dict\\nimport random\\nfrom requests.adapters import HTTPAdapter\\nfrom urllib3.util.retry import Retry\\n\\n# User agents rotation\\nUSER_AGENTS = [\\n    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',\\n    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',\\n    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'\\n]\\n\\nclass AdvancedScraper:\\n    def __init__(self):\\n        self.session = requests.Session()\\n        retry_strategy = Retry(\\n            total=3,\\n            backoff_factor=1,\\n            status_forcelist=[429, 500, 502, 503, 504]\\n        )\\n        adapter = HTTPAdapter(max_retries=retry_strategy)\\n        self.session.mount(\"http://\", adapter)\\n        self.session.mount(\"https://\", adapter)\\n    \\n    def get_page(self, url: str) -> str:\\n        headers = {\\n            'User-Agent': random.choice(USER_AGENTS),\\n            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\\n            'Accept-Language': 'en-US,en;q=0.5',\\n            'Accept-Encoding': 'gzip, deflate',\\n            'Connection': 'keep-alive',\\n        }\\n        \\n        try:\\n            response = self.session.get(url, headers=headers, timeout=15)\\n            response.raise_for_status()\\n            time.sleep(random.uniform(1, 3))  # Random delay\\n            return response.text\\n        except requests.RequestException as e:\\n            print(f'❌ Request failed: {e}')\\n            return None\\n    \\n    def extract_jobs(self, html: str) -> List[Dict]:\\n        soup = BeautifulSoup(html, 'lxml')\\n        jobs = []\\n        \\n        job_cards = soup.find_all('div', class_='job-card')\\n        \\n        for card in job_cards:\\n            title_elem = card.find('h3', class_='job-title')\\n            company_elem = card.find('span', class_='company')\\n            location_elem = card.find('span', class_='location')\\n            link_elem = card.find('a', href=True)\\n            \\n            job = {\\n                'title': title_elem.get_text(strip=True) if title_elem else 'N/A',\\n                'company': company_elem.get_text(strip=True) if company_elem else 'N/A',\\n                'location': location_elem.get_text(strip=True) if location_elem else 'N/A',\\n                'url': link_elem['href'] if link_elem else 'N/A',\\n                'scraped_at': pd.Timestamp.now().isoformat()\\n            }\\n            jobs.append(job)\\n        \\n        return jobs\\n\\n# Usage\\nscraper = AdvancedScraper()\\nhtml = scraper.get_page('https://jobs.example.com')\\nif html:\\n    jobs = scraper.extract_jobs(html)\\n    df = pd.DataFrame(jobs)\\n    df.to_json('jobs.json', orient='records', indent=2)\\n    df.to_csv('jobs.csv', index=False)\\n    print(f'✅ Extracted {len(jobs)} jobs!')",
+        "output_sample": "✅ Extracted 25 jobs!\n📄 jobs.csv and jobs.json created"
+      },
+      {
+        "step": 4,
+        "title": "Complete Project Structure & Main Script",
+        "description": "Production-ready project organization",
+        "files": {
+          "scraper.py": "from typing import List, Dict\\nimport requests\\nfrom bs4 import BeautifulSoup\\nimport pandas as pd\\nimport time\\nfrom urllib.parse import urljoin\\n\\nclass JobScraper:\\n    def __init__(self, base_url: str, pages: int = 5):\\n        self.base_url = base_url\\n        self.pages = pages\\n        self.session = requests.Session()\\n        self.session.headers.update({\\n            'User-Agent': 'JobScraper/1.0 (contact@example.com)'\\n        })\\n    \\n    def scrape_all(self) -> List[Dict]:\\n        all_jobs = []\\n        \\n        for page in range(1, self.pages + 1):\\n            print(f'🔄 Scraping page {page}/{self.pages}')\\n            url = f'{self.base_url}?page={page}'\\n            \\n            try:\\n                resp = self.session.get(url, timeout=10)\\n                soup = BeautifulSoup(resp.content, 'lxml')\\n                \\n                jobs = self._parse_jobs(soup)\\n                all_jobs.extend(jobs)\\n                \\n                time.sleep(2)  # Be nice\\n                \\n            except Exception as e:\\n                print(f'⚠️  Page {page} failed: {e}')\\n        \\n        return all_jobs\\n    \\n    def _parse_jobs(self, soup) -> List[Dict]:\\n        jobs = []\\n        cards = soup.select('.job-listing, .job-card, article.job')\\n        \\n        for card in cards:\\n            job = {\\n                'title': self._safe_text(card, 'h2 a, h3 a, .job-title'),\\n                'company': self._safe_text(card, '.company, .employer'),\\n                'location': self._safe_text(card, '.location, .city'),\\n                'salary': self._safe_text(card, '.salary'),\\n                'url': self._safe_attr(card, 'a', 'href')\\n            }\\n            if job['title'] != 'N/A':\\n                jobs.append(job)\\n        \\n        return jobs\\n    \\n    def _safe_text(self, elem, selector):\\n        found = elem.select_one(selector)\\n        return found.get_text(strip=True) if found else 'N/A'\\n    \\n    def _safe_attr(self, elem, tag, attr):\\n        found = elem.find(tag)\\n        if found and found.get(attr):\\n            return urljoin(self.base_url, found[attr])\\n        return 'N/A'\\n\\nif __name__ == '__main__':\\n    scraper = JobScraper('https://jobs.example.com', pages=3)\\n    jobs = scraper.scrape_all()\\n    \\n    df = pd.DataFrame(jobs)\\n    df.to_csv('jobs_data.csv', index=False)\\n    df.to_json('jobs_data.json', orient='records', indent=2)\\n    print(f'🎉 Scraped {len(jobs)} jobs! Files saved.')",
+          "main.py": "from scraper import JobScraper\\nimport sys\\n\\nif __name__ == '__main__':\\n    url = sys.argv[1] if len(sys.argv) > 1 else 'https://jobs.example.com'\\n    pages = int(sys.argv[2]) if len(sys.argv) > 2 else 5\\n    \\n    print(f'🚀 Starting scrape: {url} ({pages} pages)')\\n    scraper = JobScraper(url, pages)\\n    scraper.scrape_all()\\n\\n# Run: python main.py https://jobs.example.com 10"
+        }
+      }
+    ],
+    "project_structure": {
+      "tree": "web_scraper/\\n├── scraper.py              # Main scraper class\\n├── main.py                 # CLI entrypoint\\n├── requirements.txt        # Dependencies\\n├── .env.example           # Environment config\\n├── .gitignore             # Git ignore\\n├── README.md              # Documentation\\n├── data/                  # Output folder\\n│   ├── jobs.csv\\n│   └── jobs.json\\n└── tests/                 # Unit tests\\n    └── test_scraper.py",
+      "gitignore": "data/\\n__pycache__/\\n*.pyc\\n.env\\n.venv/\\n",
+      "makefile": ".PHONY: install run clean\\n\\ninstall:\\n\tpip install -r requirements.txt\\n\\nrun:\\n\tpython main.py https://example-jobs.com 5\\n\\nclean:\\n\trm -rf data/*.csv data/*.json"
+    },
+    "usage": {
+      "quick_start": "git clone <repo> && cd web_scraper && pip install -r requirements.txt && python main.py https://jobs.example.com",
+      "docker": "docker build -t webscraper . && docker run webscraper https://example.com",
+      "cli": "python main.py <URL> [PAGES]"
+    },
+    "best_practices": [
+      "✅ Always respect robots.txt",
+      "✅ Use headers/User-Agent",
+      "✅ Implement rate limiting (1-3s delays)",
+      "✅ Handle errors gracefully",
+      "✅ Use sessions for connection pooling",
+      "✅ Rotate user agents",
+      "✅ Export to structured formats (CSV/JSON)",
+      "✅ Add logging and progress indicators"
+    ],
+    "legal_notice": "⚖️  Only scrape public data you have permission to access. Respect robots.txt and terms of service. Consider APIs when available."
+  }
+}
