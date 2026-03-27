@@ -1,0 +1,385 @@
+{
+  "level": "beginner",
+  "title": "Python Beginner Course",
+  "description": "Master Python fundamentals from scratch. This comprehensive beginner course will take you from absolute zero to writing your own Python programs with confidence.",
+  "prerequisites": "No prior programming experience required. Just a computer and curiosity to learn!",
+  "totalDuration": "25+ hours",
+  "learningOutcomes": [
+    "Write Python programs with confidence",
+    "Understand core programming concepts",
+    "Build real-world beginner projects",
+    "Debug common Python errors",
+    "Read and write files in Python",
+    "Use Python data structures effectively"
+  ],
+  
+  "topics": [
+    {
+      "id": "intro-setup",
+      "order": 1,
+      "name": "Introduction & Setup",
+      "description": "Get started with Python programming by understanding what Python is, why it's popular, and setting up your development environment.",
+      "duration": "2 hours",
+      "lessons": [
+        {
+          "title": "What is Python?",
+          "description": "Learn about Python's history, features, and why it's one of the most popular programming languages.",
+          "keyPoints": [
+            "Python was created by Guido van Rossum in 1991",
+            "It's known for its simple, readable syntax",
+            "Used in web development, data science, AI, automation, and more",
+            "Has a huge community and extensive library support"
+          ]
+        },
+        {
+          "title": "Installing Python",
+          "description": "Step-by-step guide to installing Python on Windows, macOS, and Linux.",
+          "steps": [
+            "Visit python.org/downloads",
+            "Download the latest Python version",
+            "Run the installer and check 'Add Python to PATH'",
+            "Verify installation using terminal: python --version"
+          ],
+          "example": "python --version\n# Output: Python 3.12.0"
+        },
+        {
+          "title": "Setting up VS Code",
+          "description": "Install and configure Visual Studio Code for Python development.",
+          "steps": [
+            "Download VS Code from code.visualstudio.com",
+            "Install Python extension from marketplace",
+            "Create your first Python file (.py extension)",
+            "Run Python code using the play button"
+          ]
+        },
+        {
+          "title": "Your First Python Program",
+          "description": "Write and run your first Python program.",
+          "example": "# This is your first Python program\nprint(\"Hello, Neopy!\")\nprint(\"Welcome to Python programming!\")",
+          "output": "Hello, Neopy!\nWelcome to Python programming!"
+        },
+        {
+          "title": "Python Interactive Shell",
+          "description": "Learn to use Python's interactive mode for quick testing.",
+          "example": ">>> print(\"Testing...\")\nTesting...\n>>> 2 + 3\n5"
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What command is used to print output in Python?",
+          "options": ["echo", "output", "print", "console.log"],
+          "answer": "print",
+          "explanation": "print() is the built-in function used to display output in Python."
+        },
+        {
+          "question": "Which file extension is used for Python files?",
+          "options": [".pyth", ".pt", ".py", ".python"],
+          "answer": ".py",
+          "explanation": "Python files use the .py extension."
+        }
+      ]
+    },
+    
+    {
+      "id": "basics",
+      "order": 2,
+      "name": "Python Basics",
+      "description": "Learn the fundamental building blocks of Python programming including variables, data types, and basic operations.",
+      "duration": "3 hours",
+      "lessons": [
+        {
+          "title": "Variables",
+          "description": "Understanding variables as containers for storing data.",
+          "example": "# Variables in Python\nname = \"Alice\"\nage = 25\nheight = 5.6\nis_student = True\n\nprint(f\"{name} is {age} years old\")\n# Output: Alice is 25 years old"
+        },
+        {
+          "title": "Data Types",
+          "description": "Explore different data types available in Python.",
+          "example": "# Common data types\ninteger_num = 42          # int\nfloat_num = 3.14          # float\nstring_text = \"Python\"    # str\nboolean_value = True      # bool\nnone_value = None         # NoneType\n\n# Check data types\nprint(type(integer_num))  # <class 'int'>\nprint(type(string_text))  # <class 'str'>"
+        },
+        {
+          "title": "Numbers & Operators",
+          "description": "Work with integers, floats, and arithmetic operations.",
+          "example": "# Arithmetic operators\na = 10\nb = 3\n\nprint(a + b)   # 13 (addition)\nprint(a - b)   # 7 (subtraction)\nprint(a * b)   # 30 (multiplication)\nprint(a / b)   # 3.333... (division)\nprint(a // b)  # 3 (floor division)\nprint(a % b)   # 1 (modulo - remainder)\nprint(a ** b)  # 1000 (exponentiation)"
+        },
+        {
+          "title": "Strings",
+          "description": "Learn to work with text data using strings.",
+          "example": "# String operations\nmessage = \"Python Programming\"\n\n# String methods\nprint(message.upper())        # PYTHON PROGRAMMING\nprint(message.lower())        # python programming\nprint(message.replace(\"Python\", \"Neopy\"))  # Neopy Programming\nprint(len(message))           # 18 (string length)\n\n# String concatenation\nfirst_name = \"John\"\nlast_name = \"Doe\"\nfull_name = first_name + \" \" + last_name\nprint(full_name)  # John Doe\n\n# String formatting\nname = \"Alice\"\nage = 25\nprint(f\"My name is {name} and I am {age} years old\")\n# Output: My name is Alice and I am 25 years old"
+        },
+        {
+          "title": "Basic Input/Output",
+          "description": "Get user input and display output.",
+          "example": "# Getting user input\nname = input(\"What is your name? \")\nprint(f\"Hello, {name}!\")\n\n# Getting numeric input\nage = int(input(\"Enter your age: \"))\nyear = 2024 - age\nprint(f\"You were born in {year}\")"
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What data type will Python assign to variable x = 5?",
+          "options": ["float", "string", "int", "boolean"],
+          "answer": "int",
+          "explanation": "5 is an integer, so Python assigns the int data type."
+        },
+        {
+          "question": "Which operator is used for string concatenation?",
+          "options": ["&", "+", ".", "|"],
+          "answer": "+",
+          "explanation": "The + operator is used to concatenate (join) strings together."
+        }
+      ]
+    },
+    
+    {
+      "id": "control-flow",
+      "order": 3,
+      "name": "Control Flow",
+      "description": "Learn to control program flow using conditional statements and loops.",
+      "duration": "4 hours",
+      "lessons": [
+        {
+          "title": "If-Else Statements",
+          "description": "Make decisions in your code using conditional statements.",
+          "example": "# Basic if statement\nage = 18\nif age >= 18:\n    print(\"You are eligible to vote\")\n\n# If-else statement\nscore = 75\nif score >= 60:\n    print(\"You passed!\")\nelse:\n    print(\"You failed.\")\n\n# If-elif-else ladder\ngrade = 85\nif grade >= 90:\n    print(\"A grade\")\nelif grade >= 80:\n    print(\"B grade\")\nelif grade >= 70:\n    print(\"C grade\")\nelse:\n    print(\"Needs improvement\")\n\n# Nested conditions\nage = 25\nhas_license = True\nif age >= 18:\n    if has_license:\n        print(\"You can drive\")\n    else:\n        print(\"You need a license first\")\nelse:\n    print(\"You are too young to drive\")"
+        },
+        {
+          "title": "For Loops",
+          "description": "Iterate over sequences using for loops.",
+          "example": "# Looping through a list\nfruits = [\"apple\", \"banana\", \"cherry\"]\nfor fruit in fruits:\n    print(fruit)\n\n# Looping through a string\nfor char in \"Python\":\n    print(char)\n\n# Using range()\nfor i in range(5):\n    print(i)  # 0, 1, 2, 3, 4\n\nfor i in range(1, 6):\n    print(i)  # 1, 2, 3, 4, 5\n\nfor i in range(1, 10, 2):\n    print(i)  # 1, 3, 5, 7, 9\n\n# Looping with index\ncolors = [\"red\", \"green\", \"blue\"]\nfor index, color in enumerate(colors):\n    print(f\"Index {index}: {color}\")"
+        },
+        {
+          "title": "While Loops",
+          "description": "Execute code repeatedly while a condition is true.",
+          "example": "# Basic while loop\ncount = 1\nwhile count <= 5:\n    print(count)\n    count += 1\n\n# Infinite loop with break\nwhile True:\n    response = input(\"Enter 'quit' to exit: \")\n    if response == 'quit':\n        break\n    print(f\"You entered: {response}\")\n\n# Using continue\nnum = 0\nwhile num < 10:\n    num += 1\n    if num % 2 == 0:\n        continue\n    print(num)  # Prints odd numbers only"
+        },
+        {
+          "title": "Loop Control Statements",
+          "description": "Control loop execution with break, continue, and else.",
+          "example": "# Break statement\nfor i in range(10):\n    if i == 5:\n        break\n    print(i)  # 0, 1, 2, 3, 4\n\n# Continue statement\nfor i in range(10):\n    if i % 2 == 0:\n        continue\n    print(i)  # 1, 3, 5, 7, 9\n\n# Else with loops\nfor i in range(5):\n    print(i)\nelse:\n    print(\"Loop completed without break\")"
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What will the following code output? for i in range(3): print(i)",
+          "options": ["1 2 3", "0 1 2", "0 1 2 3", "1 2"],
+          "answer": "0 1 2",
+          "explanation": "range(3) generates numbers from 0 to 2 inclusive."
+        },
+        {
+          "question": "Which keyword is used to exit a loop immediately?",
+          "options": ["exit", "stop", "break", "continue"],
+          "answer": "break",
+          "explanation": "The break keyword exits the loop immediately."
+        }
+      ]
+    },
+    
+    {
+      "id": "functions",
+      "order": 4,
+      "name": "Functions",
+      "description": "Organize code into reusable blocks using functions.",
+      "duration": "3 hours",
+      "lessons": [
+        {
+          "title": "Defining Functions",
+          "description": "Create reusable blocks of code using functions.",
+          "example": "# Basic function definition\ndef greet():\n    print(\"Hello, Neopy!\")\n\n# Call the function\ngreet()\n\n# Function with parameters\ndef greet_person(name):\n    print(f\"Hello, {name}!\")\n\ngreet_person(\"Alice\")\ngreet_person(\"Bob\")\n\n# Function with return value\ndef add(a, b):\n    return a + b\n\nresult = add(5, 3)\nprint(result)  # 8"
+        },
+        {
+          "title": "Parameters & Arguments",
+          "description": "Different ways to pass data to functions.",
+          "example": "# Default parameters\ndef greet(name=\"Guest\"):\n    print(f\"Hello, {name}!\")\n\ngreet()          # Hello, Guest!\ngreet(\"Alice\")   # Hello, Alice!\n\n# Keyword arguments\ndef person_info(name, age, city):\n    print(f\"{name} is {age} years old and lives in {city}\")\n\nperson_info(age=25, name=\"Bob\", city=\"New York\")\n\n# Variable number of arguments\ndef sum_all(*args):\n    return sum(args)\n\nprint(sum_all(1, 2, 3))           # 6\nprint(sum_all(1, 2, 3, 4, 5))     # 15\n\n# Keyword arguments dictionary\ndef print_info(**kwargs):\n    for key, value in kwargs.items():\n        print(f\"{key}: {value}\")\n\nprint_info(name=\"Alice\", age=25, city=\"London\")"
+        },
+        {
+          "title": "Scope & Return Values",
+          "description": "Understand variable scope and returning values from functions.",
+          "example": "# Local vs Global scope\nglobal_var = \"I'm global\"\n\ndef my_function():\n    local_var = \"I'm local\"\n    print(global_var)  # Can access global\n    print(local_var)   # Can access local\n\n# Returning multiple values\ndef get_min_max(numbers):\n    return min(numbers), max(numbers)\n\nminimum, maximum = get_min_max([3, 1, 4, 1, 5, 9, 2])\nprint(f\"Min: {minimum}, Max: {maximum}\")\n\n# Function documentation\ndef calculate_area(length, width):\n    \"\"\"\n    Calculate the area of a rectangle.\n    \n    Args:\n        length: Length of the rectangle\n        width: Width of the rectangle\n    \n    Returns:\n        Area of the rectangle\n    \"\"\"\n    return length * width\n\nhelp(calculate_area)"
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What keyword is used to define a function in Python?",
+          "options": ["function", "def", "func", "define"],
+          "answer": "def",
+          "explanation": "The def keyword is used to define functions in Python."
+        },
+        {
+          "question": "What does the return keyword do?",
+          "options": ["Prints a value", "Exits the program", "Sends a value back from the function", "Creates a loop"],
+          "answer": "Sends a value back from the function",
+          "explanation": "return sends a value back to the caller and exits the function."
+        }
+      ]
+    },
+    
+    {
+      "id": "input-output",
+      "order": 5,
+      "name": "Input/Output",
+      "description": "Learn to read user input and work with files.",
+      "duration": "2 hours",
+      "lessons": [
+        {
+          "title": "Reading User Input",
+          "description": "Get input from users using the input() function.",
+          "example": "# Basic input\nname = input(\"Enter your name: \")\nprint(f\"Welcome, {name}!\")\n\n# Numeric input with conversion\nage = int(input(\"Enter your age: \"))\nheight = float(input(\"Enter your height in meters: \"))\n\nprint(f\"Age: {age}, Height: {height}\")\n\n# Input validation\ndef get_positive_number(prompt):\n    while True:\n        try:\n            num = float(input(prompt))\n            if num > 0:\n                return num\n            print(\"Please enter a positive number.\")\n        except ValueError:\n            print(\"Invalid input. Please enter a number.\")\n\nnumber = get_positive_number(\"Enter a positive number: \")"
+        },
+        {
+          "title": "File Operations",
+          "description": "Read from and write to files.",
+          "example": "# Writing to a file\nwith open(\"example.txt\", \"w\") as file:\n    file.write(\"Hello, Neopy!\\n\")\n    file.write(\"Learning file operations\")\n\n# Reading from a file\nwith open(\"example.txt\", \"r\") as file:\n    content = file.read()\n    print(content)\n\n# Reading line by line\nwith open(\"example.txt\", \"r\") as file:\n    for line in file:\n        print(line.strip())\n\n# Appending to a file\nwith open(\"example.txt\", \"a\") as file:\n    file.write(\"\\nAppending new content\")\n\n# Working with CSV files\nimport csv\n\n# Write CSV\nwith open(\"data.csv\", \"w\", newline=\"\") as file:\n    writer = csv.writer(file)\n    writer.writerow([\"Name\", \"Age\", \"City\"])\n    writer.writerow([\"Alice\", 25, \"New York\"])\n    writer.writerow([\"Bob\", 30, \"London\"])\n\n# Read CSV\nwith open(\"data.csv\", \"r\") as file:\n    reader = csv.reader(file)\n    for row in reader:\n        print(row)"
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which function is used to read user input?",
+          "options": ["read()", "get()", "input()", "scan()"],
+          "answer": "input()",
+          "explanation": "input() is used to read input from the user."
+        },
+        {
+          "question": "What does the 'w' mode do when opening a file?",
+          "options": ["Read", "Write (overwrite)", "Append", "Both read and write"],
+          "answer": "Write (overwrite)",
+          "explanation": "'w' mode opens a file for writing, overwriting if it exists."
+        }
+      ]
+    },
+    
+    {
+      "id": "collections",
+      "order": 6,
+      "name": "Collections",
+      "description": "Work with Python's built-in data structures: lists, tuples, dictionaries, and sets.",
+      "duration": "4 hours",
+      "lessons": [
+        {
+          "title": "Lists",
+          "description": "Store and manipulate ordered collections of items.",
+          "example": "# Creating lists\nfruits = [\"apple\", \"banana\", \"cherry\"]\nnumbers = [1, 2, 3, 4, 5]\nmixed = [1, \"hello\", 3.14, True]\n\n# Accessing elements\nprint(fruits[0])        # apple\nprint(fruits[-1])       # cherry\nprint(fruits[1:3])      # ['banana', 'cherry']\n\n# List operations\nfruits.append(\"orange\")          # Add to end\nfruits.insert(1, \"grape\")        # Insert at index\nfruits.remove(\"banana\")          # Remove element\npopped = fruits.pop()            # Remove and return last\nfruits.sort()                    # Sort list\nfruits.reverse()                 # Reverse list\n\n# List comprehension\nsquares = [x**2 for x in range(5)]\nevens = [x for x in range(10) if x % 2 == 0]"
+        },
+        {
+          "title": "Tuples",
+          "description": "Work with immutable ordered sequences.",
+          "example": "# Creating tuples\ncoordinates = (10, 20)\ncolors = (\"red\", \"green\", \"blue\")\nsingle_item = (1,)  # Note the comma\n\n# Accessing elements\nx, y = coordinates  # Tuple unpacking\nprint(f\"X: {x}, Y: {y}\")\n\n# Tuple methods\nprint(colors.count(\"red\"))    # Count occurrences\nprint(colors.index(\"green\"))  # Find index\n\n# When to use tuples\n# - For coordinates, RGB values, dates\n# - When data should not change\n# - As dictionary keys (lists cannot be keys)"
+        },
+        {
+          "title": "Dictionaries",
+          "description": "Store key-value pairs for efficient data lookup.",
+          "example": "# Creating dictionaries\nperson = {\n    \"name\": \"Alice\",\n    \"age\": 25,\n    \"city\": \"New York\"\n}\n\n# Accessing values\nprint(person[\"name\"])           # Alice\nprint(person.get(\"age\"))        # 25\nprint(person.get(\"country\", \"Unknown\"))  # Unknown\n\n# Adding/updating values\nperson[\"email\"] = \"alice@example.com\"\nperson[\"age\"] = 26\n\n# Dictionary methods\nprint(person.keys())    # All keys\nprint(person.values())  # All values\nprint(person.items())   # All key-value pairs\n\n# Looping through dictionary\nfor key, value in person.items():\n    print(f\"{key}: {value}\")\n\n# Dictionary comprehension\nsquares = {x: x**2 for x in range(5)}"
+        },
+        {
+          "title": "Sets",
+          "description": "Work with unordered collections of unique elements.",
+          "example": "# Creating sets\ncolors = {\"red\", \"green\", \"blue\"}\nnumbers = set([1, 2, 3, 3, 4, 4])  # {1, 2, 3, 4}\n\n# Set operations\nset1 = {1, 2, 3, 4}\nset2 = {3, 4, 5, 6}\n\nprint(set1 | set2)  # Union: {1, 2, 3, 4, 5, 6}\nprint(set1 & set2)  # Intersection: {3, 4}\nprint(set1 - set2)  # Difference: {1, 2}\nprint(set1 ^ set2)  # Symmetric difference: {1, 2, 5, 6}\n\n# Set methods\ncolors.add(\"yellow\")\ncolors.remove(\"red\")\nprint(\"green\" in colors)  # True"
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which data structure maintains order and allows duplicates?",
+          "options": ["Set", "Dictionary", "List", "Tuple"],
+          "answer": "List",
+          "explanation": "Lists maintain order and allow duplicate elements."
+        },
+        {
+          "question": "What is the main difference between a list and a tuple?",
+          "options": ["Tuples are faster", "Lists are immutable, tuples are mutable", "Lists are mutable, tuples are immutable", "No difference"],
+          "answer": "Lists are mutable, tuples are immutable",
+          "explanation": "Lists can be modified after creation, while tuples cannot be changed."
+        }
+      ]
+    },
+    
+    {
+      "id": "errors-exceptions",
+      "order": 7,
+      "name": "Errors & Exceptions",
+      "description": "Handle errors gracefully and write robust Python programs.",
+      "duration": "2 hours",
+      "lessons": [
+        {
+          "title": "Understanding Errors",
+          "description": "Learn about different types of errors in Python.",
+          "example": "# Syntax errors\n# print(\"Hello\"   # Missing closing parenthesis\n\n# Runtime errors\n# result = 10 / 0  # ZeroDivisionError\n\n# Logic errors\n# Finding average incorrectly\nnumbers = [1, 2, 3]\naverage = sum(numbers) / len(numbers)  # Correct way"
+        },
+        {
+          "title": "Exception Handling",
+          "description": "Use try-except blocks to handle exceptions gracefully.",
+          "example": "# Basic try-except\ntry:\n    number = int(input(\"Enter a number: \"))\n    result = 10 / number\n    print(f\"Result: {result}\")\nexcept ValueError:\n    print(\"That's not a valid number!\")\nexcept ZeroDivisionError:\n    print(\"Cannot divide by zero!\")\nexcept Exception as e:\n    print(f\"An error occurred: {e}\")\nelse:\n    print(\"No errors occurred!\")\nfinally:\n    print(\"This always executes\")\n\n# Raising exceptions\ndef validate_age(age):\n    if age < 0:\n        raise ValueError(\"Age cannot be negative\")\n    if age > 150:\n        raise ValueError(\"Age is unrealistic\")\n    return age\n\ntry:\n    age = validate_age(-5)\nexcept ValueError as e:\n    print(f\"Validation error: {e}\")"
+        },
+        {
+          "title": "Custom Exceptions",
+          "description": "Create your own exception classes.",
+          "example": "# Custom exception class\nclass InsufficientFundsError(Exception):\n    \"\"\"Raised when account balance is insufficient\"\"\"\n    pass\n\nclass BankAccount:\n    def __init__(self, balance=0):\n        self.balance = balance\n    \n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise InsufficientFundsError(f\"Insufficient funds. Balance: {self.balance}, Withdrawal: {amount}\")\n        self.balance -= amount\n        return self.balance\n\n# Using custom exception\naccount = BankAccount(100)\ntry:\n    account.withdraw(150)\nexcept InsufficientFundsError as e:\n    print(f\"Transaction failed: {e}\")"
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What block is used to handle exceptions?",
+          "options": ["catch", "handle", "except", "error"],
+          "answer": "except",
+          "explanation": "The except block is used to catch and handle exceptions in Python."
+        },
+        {
+          "question": "What happens in a finally block?",
+          "options": ["Only runs if no error occurs", "Only runs if error occurs", "Always runs", "Never runs"],
+          "answer": "Always runs",
+          "explanation": "The finally block always executes regardless of whether an exception occurred."
+        }
+      ]
+    }
+  ],
+  
+  "projects": [
+    {
+      "id": "project-1",
+      "name": "Simple Calculator",
+      "description": "Build a command-line calculator that performs basic arithmetic operations.",
+      "difficulty": "Beginner",
+      "duration": "2 hours",
+      "features": [
+        "Addition",
+        "Subtraction",
+        "Multiplication",
+        "Division",
+        "Error handling for division by zero",
+        "Continue or exit option"
+      ],
+      "starterCode": "# Simple Calculator\n\ndef add(x, y):\n    \"\"\"Return the sum of x and y\"\"\"\n    pass  # Your code here\n\ndef subtract(x, y):\n    \"\"\"Return the difference of x and y\"\"\"\n    pass  # Your code here\n\ndef multiply(x, y):\n    \"\"\"Return the product of x and y\"\"\"\n    pass  # Your code here\n\ndef divide(x, y):\n    \"\"\"Return the quotient of x and y\"\"\"\n    pass  # Your code here\n\n# Main program loop\nwhile True:\n    print(\"\\n=== Simple Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")\n    \n    choice = input(\"\\nChoose operation (1-5): \")\n    \n    if choice == '5':\n        print(\"Goodbye!\")\n        break\n    \n    if choice in ['1', '2', '3', '4']:\n        try:\n            num1 = float(input(\"Enter first number: \"))\n            num2 = float(input(\"Enter second number: \"))\n            \n            if choice == '1':\n                result = add(num1, num2)\n                print(f\"{num1} + {num2} = {result}\")\n            elif choice == '2':\n                result = subtract(num1, num2)\n                print(f\"{num1} - {num2} = {result}\")\n            elif choice == '3':\n                result = multiply(num1, num2)\n                print(f\"{num1} * {num2} = {result}\")\n            elif choice == '4':\n                result = divide(num1, num2)\n                print(f\"{num1} / {num2} = {result}\")\n        except ValueError:\n            print(\"Please enter valid numbers!\")\n        except ZeroDivisionError:\n            print(\"Cannot divide by zero!\")\n    else:\n        print(\"Invalid choice. Please try again.\")",
+      "solution": "def add(x, y):\n    return x + y\n\ndef subtract(x, y):\n    return x - y\n\ndef multiply(x, y):\n    return x * y\n\ndef divide(x, y):\n    if y == 0:\n        raise ZeroDivisionError(\"Cannot divide by zero\")\n    return x / y\n\n# Main program loop\nwhile True:\n    print(\"\\n=== Simple Calculator ===\")\n    print(\"1. Add\")\n    print(\"2. Subtract\")\n    print(\"3. Multiply\")\n    print(\"4. Divide\")\n    print(\"5. Exit\")\n    \n    choice = input(\"\\nChoose operation (1-5): \")\n    \n    if choice == '5':\n        print(\"Goodbye!\")\n        break\n    \n    if choice in ['1', '2', '3', '4']:\n        try:\n            num1 = float(input(\"Enter first number: \"))\n            num2 = float(input(\"Enter second number: \"))\n            \n            if choice == '1':\n                result = add(num1, num2)\n                print(f\"{num1} + {num2} = {result}\")\n            elif choice == '2':\n                result = subtract(num1, num2)\n                print(f\"{num1} - {num2} = {result}\")\n            elif choice == '3':\n                result = multiply(num1, num2)\n                print(f\"{num1} * {num2} = {result}\")\n            elif choice == '4':\n                result = divide(num1, num2)\n                print(f\"{num1} / {num2} = {result}\")\n        except ValueError:\n            print(\"Please enter valid numbers!\")\n        except ZeroDivisionError:\n            print(\"Cannot divide by zero!\")\n    else:\n        print(\"Invalid choice. Please try again.\")"
+    },
+    
+    {
+      "id": "project-2",
+      "name": "Number Guessing Game",
+      "description": "Create an interactive game where the player guesses a random number.",
+      "difficulty": "Beginner",
+      "duration": "2 hours",
+      "features": [
+        "Random number generation",
+        "Difficulty levels (easy/medium/hard)",
+        "Attempt counter",
+        "Hint system (too high/too low)",
+        "Score tracking",
+        "Replay option"
+      ],
+      "starterCode": "# Number Guessing Game\nimport random\n\ndef get_difficulty():\n    \"\"\"Get difficulty level from user\"\"\"\n    pass  # Your code here\n\ndef play_game():\n    \"\"\"Main game logic\"\"\"\n    pass  # Your code here\n\n# Main game loop\nwhile True:\n    play_game()\n    replay = input(\"\\nPlay again? (y/n): \").lower()\n    if replay != 'y':\n        print(\"Thanks for playing!\")\n        break",
+      "solution": "import random\n\ndef get_difficulty():\n    \"\"\"Get difficulty level from user\"\"\"\n    print(\"\\nSelect Difficulty:\")\n    print(\"1. Easy (1-50, 10 attempts)\")\n    print(\"2. Medium (1-100, 7 attempts)\")\n    print(\"3. Hard (1-200, 5 attempts)\")\n    \n    while True:\n        choice = input(\"Enter choice (1-3): \")\n        if choice == '1':\n            return 50, 10\n        elif choice == '2':\n            return 100, 7\n        elif choice == '3':\n            return 200, 5\n        else:\n            print(\"Invalid choice. Try again.\")\n\ndef play_game():\n    \"\"\"Main game logic\"\"\"\n    max_number, max_attempts = get_difficulty()\n    secret_number = random.randint(1, max_number)\n    attempts = 0\n    \n    print(f\"\\nI'm thinking of a number between 1 and {max_number}.\")\n    print(f\"You have {max_attempts} attempts to guess it!\")\n    \n    while attempts < max_attempts:\n        try:\n            guess = int(input(\"\\nYour guess: \"))\n            attempts += 1\n            \n            if guess < secret_number:\n                print(\"Too low! Try a higher number.\")\n            elif guess > secret_number:\n                print(\"Too high! Try a lower number.\")\n            else:\n                print(f\"\\nCongratulations! You guessed it in {attempts} attempts!\")\n                return\n                \n            remaining = max_attempts - attempts\n            if remaining > 0:\n                print(f\"Attempts remaining: {remaining}\")\n                \n        except ValueError:\n            print(\"Please enter a valid number!\")\n    \n    print(f\"\\nGame Over! The number was {secret_number}.\")\n\n# Main game loop\nif __name__ == \"__main__\":\n    print(\"=== Number Guessing Game ===\")\n    \n    while True:\n        play_game()\n        replay = input(\"\\nPlay again? (y/n): \").lower()\n        if replay != 'y':\n            print(\"Thanks for playing!\")\n            break"
+    },
+    
+    {
+      "id": "project-3",
+      "name": "To-Do List Using Dictionary",
+      "description": "Build a task management application using dictionaries to store tasks.",
+      "difficulty": "Beginner",
+      "duration": "3 hours",
+      "features": [
+        "Add new tasks with priority levels",
+        "View all tasks",
+        "Mark tasks as complete",
+        "Delete tasks",
+        "Filter tasks by status",
+        "Save tasks to file",
+        "Load tasks from file"
+      ],
+      "starterCode": "# To-Do List Manager\n\ntasks = {}  # Dictionary to store tasks: {id: {'name': name, 'priority': priority, 'completed': completed}}\nnext_id =
