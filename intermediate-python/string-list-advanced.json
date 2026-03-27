@@ -1,0 +1,55 @@
+{
+  "id": "string-list-advanced",
+  "order": 2,
+  "name": "String & List Advanced Operations",
+  "description": "Master advanced operations on strings and lists including slicing, comprehension, and built-in methods.",
+  "duration": "3 hours",
+  "lessons": [
+    {
+      "title": "Advanced String Methods and Formatting",
+      "description": "Explore powerful string methods for text manipulation, formatting, and pattern matching with regular expressions.",
+      "keyPoints": [
+        "String methods like split(), join(), strip(), and replace() enable efficient text processing",
+        "f-strings and format() provide flexible string interpolation with formatting options",
+        "Regular expressions (re module) offer pattern matching for complex string operations",
+        "String validation methods (isdigit(), isalpha(), isalnum()) help verify input"
+      ],
+      "example": "# Advanced string formatting\nname = \"Alice\"\nage = 25\nprice = 123.4567\n\n# f-strings with formatting\nprint(f\"{name:>10}\")  # Right-aligned: '     Alice'\nprint(f\"{age:03d}\")   # Zero-padded: '025'\nprint(f\"{price:.2f}\")  # Two decimals: '123.46'\n\n# String methods\ntext = \"  Hello, Python Programming!  \"\nprint(text.strip())           # 'Hello, Python Programming!'\nprint(text.split())           # ['Hello,', 'Python', 'Programming!']\nprint(text.split(','))        # ['  Hello', ' Python Programming!  ']\nprint(' - '.join(['a', 'b', 'c']))  # 'a - b - c'\nprint(text.replace('Python', 'Neopy'))  # '  Hello, Neopy Programming!  '\n\n# Regular expressions\nimport re\n\n# Find all email addresses\npattern = r'\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b'\ntext = \"Contact us at support@neopy.com or help@python.org\"\nemails = re.findall(pattern, text)\nprint(emails)  # ['support@neopy.com', 'help@python.org']\n\n# Extract numbers from string\ntext = \"I have 25 apples and 13 oranges\"\nnumbers = re.findall(r'\\d+', text)\nprint(numbers)  # ['25', '13']\n\n# String validation\nprint(\"12345\".isdigit())     # True\nprint(\"abc123\".isalnum())    # True\nprint(\"Hello\".isalpha())     # True\nprint(\"   \".isspace())       # True"
+    },
+    {
+      "title": "Advanced List Operations and Slicing",
+      "description": "Master list slicing, comprehensions, and advanced methods for efficient data manipulation.",
+      "keyPoints": [
+        "Slicing with step allows flexible extraction of list subsets including reversal",
+        "List comprehensions provide concise syntax for creating and transforming lists",
+        "Nested comprehensions handle multi-dimensional data structures",
+        "Advanced sorting with key functions and itemgetter enables complex ordering"
+      ],
+      "example": "# Advanced list slicing\nnumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\nprint(numbers[2:7])       # [2, 3, 4, 5, 6]\nprint(numbers[:5])        # [0, 1, 2, 3, 4]\nprint(numbers[5:])        # [5, 6, 7, 8, 9]\nprint(numbers[::2])       # [0, 2, 4, 6, 8] (every second element)\nprint(numbers[::-1])      # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0] (reverse)\n\n# Nested list comprehensions\nmatrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nflattened = [num for row in matrix for num in row]\nprint(flattened)  # [1, 2, 3, 4, 5, 6, 7, 8, 9]\n\n# Conditional list comprehensions\nnumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]\ntransformed = [x if x % 2 == 0 else x * 2 for x in numbers]\nprint(transformed)  # [2, 2, 6, 4, 10, 6, 14, 8, 18]\n\n# Advanced sorting\nstudents = [\n    ('Alice', 85, 'A'),\n    ('Bob', 92, 'B'),\n    ('Charlie', 78, 'C'),\n    ('Diana', 92, 'A')\n]\n\n# Sort by grade (descending) then by name\nstudents.sort(key=lambda x: (-x[1], x[0]))\nprint(students)\n\n# Using itemgetter for cleaner code\nfrom operator import itemgetter\nstudents.sort(key=itemgetter(1, 2), reverse=True)\nprint(students)\n\n# Zip and unzip lists\nnames = ['Alice', 'Bob', 'Charlie']\nscores = [85, 92, 78]\npaired = list(zip(names, scores))\nprint(paired)  # [('Alice', 85), ('Bob', 92), ('Charlie', 78)]\n\n# Unzip\nnames_unzipped, scores_unzipped = zip(*paired)\nprint(list(names_unzipped))  # ['Alice', 'Bob', 'Charlie']"
+    },
+    {
+      "title": "List Performance and Optimization",
+      "description": "Understand list performance characteristics and choose optimal data structures and operations.",
+      "keyPoints": [
+        "List operations have different time complexities (O(1) for append, O(n) for insert/pop at beginning)",
+        "List comprehensions are faster than manual loops for creating lists",
+        "collections.deque provides O(1) append/pop from both ends",
+        "Avoid modifying lists while iterating; use list comprehension or copy instead",
+        "Use array module or NumPy for numeric data requiring memory efficiency"
+      ],
+      "example": "# Performance comparison\nimport timeit\n\n# List comprehension vs loop\nprint(\"List comprehension:\", timeit.timeit(\n    '[x**2 for x in range(1000)]', number=10000))\nprint(\"Manual loop:\", timeit.timeit(\n    'result = []\\nfor x in range(1000): result.append(x**2)', number=10000))\n\n# Efficient vs inefficient operations\n# O(1) - append at end\nlist1 = []\nlist1.append(1)  # Fast\n\n# O(n) - insert at beginning\nlist1.insert(0, 0)  # Slow for large lists\n\n# Using deque for efficient both ends\nfrom collections import deque\nd = deque([1, 2, 3])\nd.appendleft(0)   # O(1)\nd.popleft()       # O(1)\n\n# Memory efficiency with array module\nfrom array import array\narr = array('i', [1, 2, 3, 4, 5])  # More memory efficient than list\n\n# Avoid modifying list while iterating\n# Wrong way - will skip elements\nnumbers = [1, 2, 3, 4, 5]\n# for i, num in enumerate(numbers):\n#     if num % 2 == 0:\n#         numbers.remove(num)  # Don't do this!\n\n# Correct way - create new list\nnumbers = [num for num in numbers if num % 2 != 0]\nprint(numbers)  # [1, 3, 5]\n\n# List concatenation vs extend\n# Using + creates new list (slower for large lists)\nlist_a = [1, 2, 3]\nlist_b = [4, 5, 6]\nnew_list = list_a + list_b  # Creates new list\n\n# Using extend modifies in place (faster)\nlist_a.extend(list_b)  # Modifies list_a in place\n\n# Check membership with set for large datasets\nlarge_list = list(range(10000))\nlarge_set = set(large_list)\n\n# O(n) for list, O(1) for set\nprint(timeit.timeit('9999 in large_list', globals=globals(), number=1000))\nprint(timeit.timeit('9999 in large_set', globals=globals(), number=1000))"
+    },
+    {
+      "title": "String Performance and Memory Management",
+      "description": "Learn optimal techniques for string manipulation and understand string immutability implications.",
+      "keyPoints": [
+        "Strings are immutable; each operation creates new string objects",
+        "Use join() instead of += for concatenating many strings",
+        "String methods like split() and partition() efficiently parse text",
+        "io.StringIO provides efficient string building for large text",
+        "Memory views and bytearray allow mutable string-like operations"
+      ],
+      "example": "# String concatenation performance\nimport timeit\n\n# Inefficient concatenation\ndef inefficient_concat():\n    result = \"\"\n    for i in range(1000):\n        result += str(i) + \" \"\n    return result\n\n# Efficient join\ndef efficient_join():\n    return \" \".join(str(i) for i in range(1000))\n\nprint(\"Inefficient:\", timeit.timeit(inefficient_concat, number=100))\nprint(\"Efficient:\", timeit.timeit(efficient_join, number=100))\n\n# Using join for string building\nwords = ['Python', 'is', 'awesome', 'for', 'string', 'processing']\nsentence = ' '.join(words)\nprint(sentence)  # 'Python is awesome for string processing'\n\n# Using StringIO for large text\nfrom io import StringIO\n\nstring_buffer = StringIO()\nfor i in range(1000):\n    string_buffer.write(f\"Line {i}\\n\")\ncontent = string_buffer.getvalue()\nstring_buffer.close()\nprint(f\"Total characters: {len(content)}\")\n\n# String partitioning for efficient parsing\nemail = \"username@domain.com\"\nlocal, at, domain = email.partition('@')\nprint(f\"Local: {local}, Domain: {domain}\")  # 'username', 'domain.com'\n\n# Using bytearray for mutable strings\nba = bytearray(b'Hello')\nba[0] = ord('J')  # Modify in place\nprint(ba.decode())  # 'Jello'\n\n# Memory view for zero-copy slicing\nimport memoryview\nmv = memoryview(b'Python Programming')\nslice_mv = mv[7:18]  # No copy, just view\nprint(slice_mv.tobytes().decode())  # 'Programming'"
+    }
+  ]
+}
