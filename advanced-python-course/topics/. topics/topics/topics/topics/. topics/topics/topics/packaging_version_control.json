@@ -1,0 +1,85 @@
+{
+  "packaging_version_control.json": {
+    "title": "Python Packaging & Version Control Master Guide",
+    "version": "1.0.0",
+    "description": "Complete lessons on Python packaging (pip, virtualenv) and Git/GitHub version control with executable examples",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Virtual Environments with virtualenv & pip",
+        "objective": "Isolate project dependencies",
+        "commands": "pip install virtualenv\\nvirtualenv venv\\nsource venv/bin/activate  # Linux/Mac\\nvenv\\\\Scripts\\\\activate   # Windows\\npip install requests numpy\\npip freeze > requirements.txt\\npip install -r requirements.txt",
+        "example": {
+          "setup_env.sh": "#!/bin/bash\\n\\necho \"🗂️  Creating virtual environment...\"\\nvirtualenv venv\\nsource venv/bin/activate\\n\\necho \"📦 Installing core dependencies...\"\\npip install --upgrade pip\\npip install requests==2.31.0 numpy==1.24.3 pandas==2.0.3\\n\\necho \"💾 Saving requirements...\"\\npip freeze > requirements.txt\\n\\necho \"✅ Environment ready! (venv activated)\"\\npip list"
+        },
+        "pro_tip": "Add `venv/` to .gitignore but commit `requirements.txt`"
+      },
+      {
+        "id": 2,
+        "title": "Git Essentials & Project Initialization",
+        "objective": "Version control setup and basic workflow",
+        "commands": "git init\\ngit config --global user.name \"Your Name\"\\ngit config --global user.email \"email@example.com\"\\ngit add .\\ngit commit -m \"Initial commit\"\\ngit status\\ngit log --oneline",
+        "example": {
+          "git_init.sh": "#!/bin/bash\\n\\ngit init\\ngit config user.name \"Developer\"\\ngit config user.email \"dev@example.com\"\\n\\necho \"# My Python Project\" > README.md\\necho \"version = '0.1.0'\" > __init__.py\\n\\ngit add .\\ngit commit -m \"🎉 Initial project setup with README and __init__.py\"\\ngit log --oneline"
+        },
+        "pro_tip": "Use `git add -p` for selective hunks"
+      },
+      {
+        "id": 3,
+        "title": "Python Packaging with pyproject.toml",
+        "objective": "Modern packaging standards",
+        "example": {
+          "pyproject.toml": "[build-system]\\nrequires = [\"setuptools>=61.0.0\", \"wheel\"]\\nbuild-backend = \"setuptools.build_meta\"\\n\\n[project]\\nname = \"data-processor\"\\nversion = \"0.1.0\"\\ndescription = \"Process and analyze data files\"\\nreadme = \"README.md\"\\nlicense = {text = \"MIT\"}\\nrequires-python = \">=3.8\"\\nclassifiers = [\\n  \"Programming Language :: Python :: 3\",\\n  \"License :: OSI Approved :: MIT License\",\\n  \"Operating System :: OS Independent\",\\n]\\n\\n[project.urls]\\nHomepage = \"https://github.com/username/data-processor\"\\n\"Bug Tracker\" = \"https://github.com/username/data-processor/issues\"\\n\\n[project.dependencies]\\nrequests = \">=2.28.0\"\\nnumpy = \">=1.21.0\"\\npandas = \">=1.5.0\"\\n\\n[project.optional-dependencies]\\ndev = [\\n  \"pytest>=7.0\",\\n  \"black\",\\n  \"flake8\",\\n  \"mypy\",\\n]\\n\\n[tool.setuptools.packages.find]\\nwhere = [\"src\"]\\ninclude = [\"data_processor*\"]\\n",
+          "src/data_processor/__init__.py": "\"\"\"\u001b[1mData Processor\u001b[0m - Process and analyze data files\\n\\n\u001b[3mversion 0.1.0\u001b[0m\\n\"\"\"\\n\\n__version__ = \"0.1.0\"\\n\\nfrom .core import process_data\\nfrom .utils import load_csv"
+        },
+        "commands": "mkdir -p src/data_processor\\ntouch src/data_processor/__init__.py\\npip install build\\npython -m build\\npip install -e ."
+      },
+      {
+        "id": 4,
+        "title": "GitHub Integration & CI/CD",
+        "objective": "Remote repository + automated testing",
+        "commands": "git remote add origin https://github.com/username/repo.git\\ngit branch -M main\\ngit push -u origin main",
+        "example": {
+          ".github/workflows/ci.yml": "name: Python CI\\n\\non:\\n  push:\\n    branches: [ main ]\\n  pull_request:\\n    branches: [ main ]\\n\\njobs:\\n  test:\\n    runs-on: ubuntu-latest\\n    strategy:\\n      matrix:\\n        python-version: [3.8, 3.9, 3.10, 3.11]\\n\\n    steps:\\n    - uses: actions/checkout@v4\\n    - name: Set up Python ${{ matrix.python-version }}\\n      uses: actions/setup-python@v4\\n      with:\\n        python-version: ${{ matrix.python-version }}\\n    - name: Install dependencies\\n      run: |\\n        python -m pip install --upgrade pip\\n        pip install -r requirements.txt\\n        pip install -e .[dev]\\n    - name: Run tests\\n      run: |\\n        pytest tests/ -v\\n",
+          "Makefile": ".PHONY: install test build publish clean\\n\\ninstall:\\n\tpip install -e .[dev]\\n\\ntest:\\n\tpytest tests/ -v\\n\\nbuild:\\n\tpython -m build\\n\\npublish:\\n\ttwine upload dist/*\\n\\nclean:\\n\trm -rf dist/ build/ .eggs/ *.egg-info/"
+        }
+      },
+      {
+        "id": 5,
+        "title": "Complete .gitignore & Requirements",
+        "objective": "Clean repository practices",
+        "example": {
+          ".gitignore": "# Byte-compiled / optimized / DLL files\\n__pycache__/\\n*.py[cod]\\n*$py.class\\n\\n# C extensions\\n*.so\\n\\n# Distribution / packaging\\n.Python\\nbuild/\\ndevelop-eggs/\\ndist/\\n.sdist/\\n.wheels/\\n*.egg-info/\\n.installed.cfg\\n*.eggs/\\n\\n# PyInstaller\\n#  Usually these files are written by a python script from a template\\n#  before PyInstaller builds the exe, so as to inject date/other infos into it.\\n*.manifest\\n*.spec\\n\\n# Virtual environments\\nvenv/\\nenv/\\nENV/\\nenv.bak/\\nvenv.bak/\\n\\n# IDE\\n.vscode/\\n.idea/\\n*.swp\\n*.swo\\n\\n# OS generated files\\n.DS_Store\\n.DS_Store?\\n._*\\n.Spotlight-V100\\n.Trashes\\nehthumbs.db\\nThumbs.db\\n\\n# Pip\\npip-log.txt\\npip-delete-this-directory.txt\\n\\n# Environment variables\\n.env\\n.venv\\nenv/\\n\\n# Testing\\n.pytest_cache/\\n.coverage\\nhtmlcov/\\n.tox/\\n.nox/\\n.coverage.*\\n.cache\\nnosetests.xml\\ncoverage.xml\\n\\n# Translations\\n*.mo\\n*.pot\\n",
+          "requirements.txt": "requests==2.31.0\\nnumpy==1.24.3\\npandas==2.0.3\\nmatplotlib==3.7.2\\n\\n# Dev dependencies\\npytest==7.4.0\\nblack==23.10.1\\nflake8==6.1.0\\nmypy==1.5.1\\nisort==5.12.0\\n",
+          "requirements-dev.txt": "pytest==7.4.0\\nblack==23.10.1\\nflake8==6.1.0\\nmypy==1.5.1\\nisort==5.12.0\\npytest-cov==4.1.0\\npre-commit==3.5.0"
+        }
+      },
+      {
+        "id": 6,
+        "title": "Build, Test, Publish Workflow",
+        "objective": "Production-ready deployment",
+        "commands": "pip install build twine\\npython -m build\\npip install -e .[dev]\\npytest tests/\\ntwine check dist/*\\ntwine upload --repository testpypi dist/*",
+        "example": {
+          "publish.sh": "#!/bin/bash\\nset -e\\n\\n# Build\\npip install build twine\\npython -m build\\n\\n# Test install\\npip install dist/*.whl\\n\\n# Verify\\ntwine check dist/*\\n\\n# Test upload (uncomment for real publish)\\n# twine upload --repository testpypi dist/*\\n\\necho \"✅ Build successful! Ready for PyPI upload.\"\\n\\n# Real publish (uncomment when ready)\\n# twine upload dist/*",
+          "tests/test_core.py": "import pytest\\nfrom data_processor.core import process_data\\n\\n\\ndef test_process_data():\\n    \"\"\"Test core data processing function.\"\"\"\\n    result = process_data([1, 2, 3, 4, 5])\\n    assert len(result) == 5\\n    assert result[0] == 1\\n    assert sum(result) == 15\\n\\n\\ndef test_invalid_input():\\n    with pytest.raises(ValueError):\\n        process_data([])"
+        }
+      }
+    ],
+    "project_structure": {
+      "template": "myproject/\\n├── src/\\n│   └── myproject/\\n│       ├── __init__.py\\n│       ├── core/\\n│       └── utils/\\n├── tests/\\n├── docs/\\n├── .github/workflows/\\n├── pyproject.toml\\n├── README.md\\n├── requirements.txt\\n├── .gitignore\\n└── LICENSE",
+      "init_command": "mkdir -p src/myproject/{core,utils} tests docs \".github/workflows\" && touch pyproject.toml requirements.txt .gitignore README.md LICENSE && git init"
+    },
+    "quick_start": {
+      "one_liner": "git clone <repo> && cd <repo> && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt && pip install -e .",
+      "full_setup": "git init && virtualenv venv && source venv/bin/activate && pip install -r requirements.txt && git add . && git commit -m 'Initial setup'"
+    },
+    "git_commands_cheatsheet": {
+      "status": "git status",
+      "add_all": "git add .",
+      "commit": "git commit -m 'feat: add feature'",
+      "push": "git push origin main",
+      "branch": "git checkout -b feature/new-thing",
+      "log": "git log --oneline -10"
+    }
+  }
+}
