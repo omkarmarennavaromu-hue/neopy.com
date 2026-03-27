@@ -1,0 +1,304 @@
+{
+  "projects": [
+    {
+      "id": "beginner-calculator",
+      "name": "Simple Calculator",
+      "description": "Build a command-line calculator that performs basic arithmetic operations including addition, subtraction, multiplication, and division. The project teaches fundamental Python concepts like functions, user input handling, and error handling for division by zero.",
+      "required_topics": [
+        "Variables and Data Types",
+        "Functions",
+        "Input/Output Operations",
+        "Conditional Statements",
+        "Error Handling Basics"
+      ],
+      "difficulty": "Beginner",
+      "estimated_hours": 2,
+      "learning_outcomes": [
+        "Write and call functions",
+        "Handle user input",
+        "Implement basic error handling",
+        "Structure a simple program"
+      ]
+    },
+    {
+      "id": "beginner-guessing-game",
+      "name": "Number Guessing Game",
+      "description": "Create an interactive game where the player guesses a randomly generated number. The game includes difficulty levels, attempt tracking, and hints to guide the player.",
+      "required_topics": [
+        "Random Module",
+        "Loops (while and for)",
+        "Conditional Statements",
+        "Functions",
+        "Input Validation"
+      ],
+      "difficulty": "Beginner",
+      "estimated_hours": 2,
+      "learning_outcomes": [
+        "Generate random numbers",
+        "Implement game loops",
+        "Track and display attempts",
+        "Add difficulty settings"
+      ]
+    },
+    {
+      "id": "beginner-todo-list",
+      "name": "To-Do List Using Dictionary",
+      "description": "Build a task management application using dictionaries to store tasks with priorities and status. Features include adding, viewing, completing, and deleting tasks with persistent storage.",
+      "required_topics": [
+        "Dictionaries",
+        "Lists",
+        "File I/O",
+        "Functions",
+        "User Input Handling"
+      ],
+      "difficulty": "Beginner",
+      "estimated_hours": 3,
+      "learning_outcomes": [
+        "Work with dictionary data structures",
+        "Implement CRUD operations",
+        "Save and load data from files",
+        "Create a menu-driven interface"
+      ]
+    },
+    {
+      "id": "beginner-hangman",
+      "name": "Hangman Game",
+      "description": "Develop the classic word-guessing game where players guess letters to reveal a hidden word. Includes word categories, lives system, and visual feedback.",
+      "required_topics": [
+        "Strings",
+        "Lists",
+        "Loops",
+        "Conditional Statements",
+        "Random Selection"
+      ],
+      "difficulty": "Beginner",
+      "estimated_hours": 3,
+      "learning_outcomes": [
+        "Manipulate strings and lists",
+        "Track game state",
+        "Implement game logic with lives",
+        "Display visual progress"
+      ]
+    },
+    {
+      "id": "intermediate-bank-system",
+      "name": "Bank Management System",
+      "description": "Create a comprehensive banking application with account creation, deposits, withdrawals, fund transfers, transaction history, and interest calculation using OOP principles.",
+      "required_topics": [
+        "Object-Oriented Programming",
+        "Classes and Objects",
+        "Exception Handling",
+        "File I/O",
+        "Data Validation"
+      ],
+      "difficulty": "Intermediate",
+      "estimated_hours": 5,
+      "learning_outcomes": [
+        "Design class hierarchies",
+        "Implement encapsulation and validation",
+        "Handle transactions securely",
+        "Generate and store transaction history"
+      ]
+    },
+    {
+      "id": "intermediate-quiz-app",
+      "name": "Quiz Application",
+      "description": "Build an interactive quiz app with multiple-choice questions, scoring system, time limits, and support for multiple difficulty levels. Questions are loaded from JSON files.",
+      "required_topics": [
+        "JSON Handling",
+        "Object-Oriented Programming",
+        "File I/O",
+        "Timing and Delays",
+        "Data Structures"
+      ],
+      "difficulty": "Intermediate",
+      "estimated_hours": 4,
+      "learning_outcomes": [
+        "Parse and structure JSON data",
+        "Implement scoring algorithms",
+        "Add time-based challenges",
+        "Create a user-friendly interface"
+      ]
+    },
+    {
+      "id": "intermediate-contact-book",
+      "name": "Contact Book with JSON Storage",
+      "description": "Create a contact management system that stores contacts in JSON format. Features include adding, searching, editing, deleting contacts, and grouping by categories.",
+      "required_topics": [
+        "JSON Serialization",
+        "File Operations",
+        "Search Algorithms",
+        "Data Validation",
+        "CRUD Operations"
+      ],
+      "difficulty": "Intermediate",
+      "estimated_hours": 3,
+      "learning_outcomes": [
+        "Work with JSON data persistence",
+        "Implement search functionality",
+        "Validate user input",
+        "Organize data by categories"
+      ]
+    },
+    {
+      "id": "intermediate-expense-tracker",
+      "name": "Expense Tracker",
+      "description": "Develop an application to track personal expenses with categories, date ranges, reports, and data visualization using matplotlib. Includes budget setting and alerts.",
+      "required_topics": [
+        "Pandas",
+        "Matplotlib",
+        "File I/O",
+        "Data Aggregation",
+        "Date Handling"
+      ],
+      "difficulty": "Intermediate",
+      "estimated_hours": 5,
+      "learning_outcomes": [
+        "Analyze data with pandas",
+        "Create visualizations with matplotlib",
+        "Implement data filtering and reporting",
+        "Set and monitor budgets"
+      ]
+    },
+    {
+      "id": "pro-web-scraper",
+      "name": "Web Scraper",
+      "description": "Build a robust web scraper using BeautifulSoup and requests to extract structured data from websites. Includes handling pagination, rate limiting, and data export to CSV.",
+      "required_topics": [
+        "Web Scraping (BeautifulSoup)",
+        "HTTP Requests",
+        "Error Handling",
+        "Data Export (CSV)",
+        "Rate Limiting"
+      ],
+      "difficulty": "Pro",
+      "estimated_hours": 6,
+      "learning_outcomes": [
+        "Parse HTML and extract data",
+        "Handle dynamic content",
+        "Implement ethical scraping practices",
+        "Export data to CSV format"
+      ]
+    },
+    {
+      "id": "pro-rest-api-flask",
+      "name": "REST API using Flask",
+      "description": "Create a production-ready RESTful API with Flask including JWT authentication, database integration with SQLAlchemy, request validation, and comprehensive documentation.",
+      "required_topics": [
+        "Flask Framework",
+        "RESTful Architecture",
+        "Database Integration (SQLAlchemy)",
+        "JWT Authentication",
+        "API Documentation"
+      ],
+      "difficulty": "Pro",
+      "estimated_hours": 8,
+      "learning_outcomes": [
+        "Design RESTful endpoints",
+        "Implement authentication and authorization",
+        "Work with databases using ORM",
+        "Create API documentation"
+      ]
+    },
+    {
+      "id": "pro-data-analysis",
+      "name": "Data Analysis Project",
+      "description": "Perform comprehensive data analysis on real-world datasets using pandas, numpy, and visualization libraries. Includes data cleaning, exploratory analysis, statistical testing, and interactive dashboards.",
+      "required_topics": [
+        "Pandas",
+        "NumPy",
+        "Matplotlib/Seaborn",
+        "Statistical Analysis",
+        "Data Visualization"
+      ],
+      "difficulty": "Pro",
+      "estimated_hours": 8,
+      "learning_outcomes": [
+        "Clean and preprocess real-world data",
+        "Perform exploratory data analysis",
+        "Conduct statistical tests",
+        "Create interactive visualizations"
+      ]
+    },
+    {
+      "id": "pro-ecommerce-backend",
+      "name": "E-commerce Backend System",
+      "description": "Build a complete e-commerce backend with Django REST Framework including product management, shopping cart, order processing, payment integration, and admin dashboard.",
+      "required_topics": [
+        "Django Framework",
+        "REST API Design",
+        "Database Design",
+        "Authentication",
+        "Payment Integration"
+      ],
+      "difficulty": "Pro",
+      "estimated_hours": 12,
+      "learning_outcomes": [
+        "Design scalable database schema",
+        "Implement complex business logic",
+        "Handle payment processing",
+        "Create admin interfaces"
+      ]
+    },
+    {
+      "id": "pro-ml-classifier",
+      "name": "Machine Learning Classifier",
+      "description": "Develop and deploy a machine learning model using scikit-learn. Includes data preprocessing, feature engineering, model selection, hyperparameter tuning, and deployment with FastAPI.",
+      "required_topics": [
+        "Scikit-learn",
+        "Data Preprocessing",
+        "Model Evaluation",
+        "Hyperparameter Tuning",
+        "API Deployment"
+      ],
+      "difficulty": "Pro",
+      "estimated_hours": 10,
+      "learning_outcomes": [
+        "Preprocess data for ML",
+        "Train and evaluate models",
+        "Optimize hyperparameters",
+        "Deploy models as APIs"
+      ]
+    },
+    {
+      "id": "pro-async-chat",
+      "name": "Real-time Chat Application",
+      "description": "Create a real-time chat application using WebSockets with asyncio. Includes user authentication, multiple rooms, message persistence, and live notifications.",
+      "required_topics": [
+        "Asyncio",
+        "WebSockets",
+        "Database Operations",
+        "Authentication",
+        "Real-time Communication"
+      ],
+      "difficulty": "Pro",
+      "estimated_hours": 8,
+      "learning_outcomes": [
+        "Implement WebSocket connections",
+        "Handle concurrent users",
+        "Manage chat rooms",
+        "Store and retrieve messages"
+      ]
+    },
+    {
+      "id": "pro-task-queue",
+      "name": "Task Queue with Celery",
+      "description": "Build a distributed task queue system using Celery and Redis for handling background jobs, scheduled tasks, and parallel processing.",
+      "required_topics": [
+        "Celery",
+        "Redis",
+        "Asynchronous Processing",
+        "Task Scheduling",
+        "Error Handling"
+      ],
+      "difficulty": "Pro",
+      "estimated_hours": 7,
+      "learning_outcomes": [
+        "Set up task queues",
+        "Implement background jobs",
+        "Schedule periodic tasks",
+        "Monitor task execution"
+      ]
+    }
+  ]
+}
