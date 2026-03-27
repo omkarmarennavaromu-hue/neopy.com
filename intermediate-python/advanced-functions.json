@@ -1,0 +1,54 @@
+{
+  "id": "advanced-functions",
+  "order": 1,
+  "name": "Advanced Functions",
+  "description": "Master advanced function concepts including lambda functions, decorators, generators, and functional programming techniques.",
+  "duration": "4 hours",
+  "lessons": [
+    {
+      "title": "Lambda Functions",
+      "description": "Create anonymous functions using lambda expressions for concise, single-expression operations.",
+      "keyPoints": [
+        "Lambda functions are anonymous and defined using the 'lambda' keyword",
+        "They can take any number of arguments but only have one expression",
+        "Commonly used with map(), filter(), and sorted() for functional-style programming",
+        "Useful for short, throwaway functions without def statements"
+      ],
+      "example": "# Basic lambda function\nsquare = lambda x: x ** 2\nprint(square(5))  # Output: 25\n\n# Lambda with multiple arguments\nadd = lambda a, b: a + b\nprint(add(10, 20))  # Output: 30\n\n# Using lambda with map()\nnumbers = [1, 2, 3, 4, 5]\ndoubled = list(map(lambda x: x * 2, numbers))\nprint(doubled)  # Output: [2, 4, 6, 8, 10]\n\n# Using lambda with filter()\neven_numbers = list(filter(lambda x: x % 2 == 0, numbers))\nprint(even_numbers)  # Output: [2, 4]\n\n# Using lambda with sorted()\nstudents = [('Alice', 85), ('Bob', 92), ('Charlie', 78)]\nsorted_students = sorted(students, key=lambda x: x[1], reverse=True)\nprint(sorted_students)  # Output: [('Bob', 92), ('Alice', 85), ('Charlie', 78)]"
+    },
+    {
+      "title": "Decorators",
+      "description": "Enhance functions by wrapping them with decorators to add functionality without modifying the original code.",
+      "keyPoints": [
+        "Decorators are functions that take another function as an argument and extend its behavior",
+        "They use the @ syntax for convenient application",
+        "Can be used for logging, timing, access control, and caching",
+        "Decorators can accept arguments for customization"
+      ],
+      "example": "# Basic decorator to measure execution time\nimport time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        end = time.time()\n        print(f\"{func.__name__} took {end - start:.2f} seconds\")\n        return result\n    return wrapper\n\n@timer\ndef slow_function():\n    time.sleep(2)\n    return \"Done\"\n\nprint(slow_function())  # Output: slow_function took 2.00 seconds\\nDone\n\n# Decorator with arguments\ndef repeat(n):\n    def decorator(func):\n        def wrapper(*args, **kwargs):\n            results = []\n            for _ in range(n):\n                results.append(func(*args, **kwargs))\n            return results\n        return wrapper\n    return decorator\n\n@repeat(3)\ndef greet(name):\n    return f\"Hello, {name}!\"\n\nprint(greet(\"Alice\"))  # Output: ['Hello, Alice!', 'Hello, Alice!', 'Hello, Alice!']\n\n# Multiple decorators\n@timer\n@repeat(2)\ndef process(data):\n    return data.upper()\n\nprint(process(\"hello\"))  # Output: process took 0.00 seconds\\n['HELLO', 'HELLO']"
+    },
+    {
+      "title": "Generators",
+      "description": "Create memory-efficient sequences using generators and the yield keyword for lazy evaluation.",
+      "keyPoints": [
+        "Generators use yield instead of return to produce a sequence of values lazily",
+        "They don't store all values in memory, making them ideal for large datasets",
+        "Generator expressions provide a concise syntax similar to list comprehensions",
+        "Generators can be infinite and are exhausted after iteration"
+      ],
+      "example": "# Basic generator function\ndef count_up_to(n):\n    \"\"\"Generator that counts from 1 to n\"\"\"\n    i = 1\n    while i <= n:\n        yield i\n        i += 1\n\n# Using generator\nfor num in count_up_to(5):\n    print(num)  # Output: 1 2 3 4 5\n\n# Memory-efficient Fibonacci generator\ndef fibonacci():\n    \"\"\"Generate Fibonacci numbers indefinitely\"\"\"\n    a, b = 0, 1\n    while True:\n        yield a\n        a, b = b, a + b\n\n# Get first 10 Fibonacci numbers\nfib = fibonacci()\nfirst_10 = [next(fib) for _ in range(10)]\nprint(first_10)  # Output: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]\n\n# Generator expression\nsquares = (x ** 2 for x in range(10))\nprint(list(squares))  # Output: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]\n\n# Generator for reading large files\ndef read_large_file(file_path):\n    with open(file_path, 'r') as file:\n        for line in file:\n            yield line.strip()\n\n# Usage (doesn't load entire file into memory)\nfor line in read_large_file('large_file.txt'):\n    print(line[:50])  # Print first 50 chars of each line"
+    },
+    {
+      "title": "Functional Programming Tools",
+      "description": "Use map(), filter(), reduce(), and comprehensions for functional-style data processing.",
+      "keyPoints": [
+        "map() applies a function to every item in an iterable",
+        "filter() selects items based on a predicate function",
+        "reduce() cumulatively applies a function to items, reducing to a single value",
+        "List/dict/set comprehensions provide Pythonic alternatives to map/filter",
+        "functools module provides higher-order functions like partial and reduce"
+      ],
+      "example": "from functools import reduce\n\n# Map - transform all elements\nnumbers = [1, 2, 3, 4, 5]\ncubed = list(map(lambda x: x ** 3, numbers))\nprint(cubed)  # Output: [1, 8, 27, 64, 125]\n\n# Filter - keep elements meeting condition\nadults = list(filter(lambda age: age >= 18, [15, 22, 17, 30, 12]))\nprint(adults)  # Output: [22, 30]\n\n# Reduce - accumulate to single value\nsum_all = reduce(lambda x, y: x + y, numbers)\nprint(sum_all)  # Output: 15\n\n# List comprehensions (more Pythonic)\nsquares = [x ** 2 for x in range(10)]\nevens = [x for x in range(20) if x % 2 == 0]\nprint(squares[:5])  # Output: [0, 1, 4, 9, 16]\n\n# Dictionary comprehension\nsquared_dict = {x: x ** 2 for x in range(5)}\nprint(squared_dict)  # Output: {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}\n\n# Set comprehension\nunique_squares = {x ** 2 for x in [1, 2, 2, 3, 3, 4]}\nprint(unique_squares)  # Output: {1, 4, 9, 16}\n\n# Chaining functional operations\nfrom functools import partial\n\n# Partial function application\ndef power(base, exponent):\n    return base ** exponent\n\nsquare = partial(power, exponent=2)\ncube = partial(power, exponent=3)\n\nprint(square(5))  # Output: 25\nprint(cube(5))    # Output: 125"
+    }
+  ]
+}
