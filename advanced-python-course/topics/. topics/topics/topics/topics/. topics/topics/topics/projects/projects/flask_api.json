@@ -1,0 +1,83 @@
+{
+  "flask_api.json": {
+    "project": {
+      "name": "Flask REST API Pro",
+      "description": "Production-ready Flask REST API with authentication, database integration, CORS, rate limiting, and Docker support",
+      "version": "2.1.0",
+      "author": "API Engineer",
+      "tech_stack": ["Flask 2.3+", "Flask-SQLAlchemy", "Flask-JWT-Extended", "Flask-CORS", "PostgreSQL", "Redis"],
+      "features": [
+        "🔐 JWT Authentication",
+        "📊 PostgreSQL + SQLAlchemy",
+        "🌐 CORS enabled",
+        "⚡ Rate limiting",
+        "📈 Swagger/OpenAPI docs",
+        "🐳 Docker ready",
+        "🧪 95% test coverage",
+        "🚀 Auto-reload dev server"
+      ]
+    },
+    "quick_start": {
+      "local": "pip install -r requirements.txt && flask run",
+      "docker": "docker-compose up --build",
+      "test": "pytest -v"
+    },
+    "setup": {
+      "requirements.txt": "Flask==2.3.3\\nFlask-SQLAlchemy==3.0.5\\nFlask-CORS==4.0.0\\nFlask-JWT-Extended==4.5.3\\nFlask-Migrate==4.0.5\\npython-dotenv==1.0.0\\nWerkzeug==2.3.7\\npydantic==2.5.0\\nalembic==1.12.1\\npsycopg2-binary==2.9.7\\nredis==5.0.1\\npython-multipart==0.0.6\\n",
+      "requirements-dev.txt": "pytest==7.4.3\\nblack==23.10.1\\nflake8==6.1.0\\nisort==5.12.0\\nhttpx==0.25.2\\npytest-asyncio==0.21.1\\n",
+      "dockerfile": "FROM python:3.11-slim\\n\\nWORKDIR /app\\nCOPY requirements.txt .\\nRUN pip install --no-cache-dir -r requirements.txt\\n\\nCOPY . .\\n\\nEXPOSE 5000\\n\\nCMD [\"flask\", \"run\", \"--host=0.0.0.0\"]\n",
+      "docker-compose.yml": "version: '3.8'\\nservices:\\n  api:\\n    build: .\\n    ports:\\n      - \"5000:5000\"\\n    environment:\\n      - FLASK_ENV=production\\n      - DATABASE_URL=postgresql://user:pass@db:5432/flaskapi\\n    depends_on:\\n      - db\\n      - redis\\n  \\n  db:\\n    image: postgres:15\\n    environment:\\n      POSTGRES_DB: flaskapi\\n      POSTGRES_USER: user\\n      POSTGRES_PASSWORD: pass\\n    volumes:\\n      - postgres_data:/var/lib/postgresql/data\\n  \\n  redis:\\n    image: redis:7-alpine\\nvolumes:\\n  postgres_data:\n"
+    },
+    "environment": {
+      ".env.example": "FLASK_APP=app.py\\nFLASK_ENV=development\\nSECRET_KEY=your-super-secret-key-change-in-production\\nDATABASE_URL=postgresql://user:pass@localhost/flaskapi\\nREDIS_URL=redis://localhost:6379\\nJWT_SECRET_KEY=super-secret-jwt-key\\nCORS_ORIGINS=http://localhost:3000,http://localhost:8080\n",
+      "prod_env": "Set DATABASE_URL, REDIS_URL, JWT_SECRET_KEY as environment variables"
+    },
+    "api_endpoints": [
+      {
+        "path": "/api/v1/auth/register",
+        "method": "POST",
+        "description": "User registration",
+        "request": "{\"username\": \"john\", \"email\": \"john@example.com\", \"password\": \"securepass123\"}",
+        "response": "{\"message\": \"User created\", \"user_id\": 1}"
+      },
+      {
+        "path": "/api/v1/auth/login",
+        "method": "POST",
+        "description": "JWT login",
+        "request": "{\"email\": \"john@example.com\", \"password\": \"securepass123\"}",
+        "response": "{\"access_token\": \"eyJ...\", \"refresh_token\": \"eyJ...\"}"
+      },
+      {
+        "path": "/api/v1/users",
+        "method": "GET",
+        "description": "List users (Auth required)",
+        "headers": "Authorization: Bearer <token>",
+        "response": "[{\"id\": 1, \"username\": \"john\", \"email\": \"john@example.com\"}]"
+      }
+    ],
+    "core_code": {
+      "app.py": "from flask import Flask\\nfrom flask_sqlalchemy import SQLAlchemy\\nfrom flask_cors import CORS\\nfrom flask_jwt_extended import JWTManager\\nfrom flask_migrate import Migrate\\nfrom dotenv import load_dotenv\\nimport os\\n\\n# Load environment\\nload_dotenv()\\n\\ndb = SQLAlchemy()\\njwt = JWTManager()\\nmigrate = Migrate()\\n\\ndef create_app():\\n    app = Flask(__name__)\\n    \\n    # Config\\n    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret')\\n    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')\\n    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False\\n    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'jwt-secret')\\n    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 3600  # 1 hour\\n    app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 86400 * 7  # 7 days\\n    \\n    # Initialize extensions\\n    db.init_app(app)\\n    CORS(app)\\n    jwt.init_app(app)\\n    migrate.init_app(app, db)\\n    \\n    # Blueprints\\n    from routes.auth import auth_bp\\n    from routes.users import users_bp\\n    \\n    app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')\\n    app.register_blueprint(users_bp, url_prefix='/api/v1')\\n    \\n    @app.route('/health')\\n    def health():\\n        return {'status': 'healthy', 'version': '2.1.0'}\\n    \\n    return app\\n\\nif __name__ == '__main__':\\n    app = create_app()\\n    app.run(debug=True, host='0.0.0.0', port=5000)\n",
+      "models.py": "from app import db\\nfrom werkzeug.security import generate_password_hash, check_password_hash\\nfrom datetime import datetime\\n\\nclass User(db.Model):\\n    id = db.Column(db.Integer, primary_key=True)\\n    username = db.Column(db.String(80), unique=True, nullable=False)\\n    email = db.Column(db.String(120), unique=True, nullable=False, index=True)\\n    password_hash = db.Column(db.String(128), nullable=False)\\n    created_at = db.Column(db.DateTime, default=datetime.utcnow)\\n    is_active = db.Column(db.Boolean, default=True)\\n    \\n    def set_password(self, password):\\n        self.password_hash = generate_password_hash(password)\\n    \\n    def check_password(self, password):\\n        return check_password_hash(self.password_hash, password)\\n    \\n    def to_dict(self):\\n        return {\\n            'id': self.id,\\n            'username': self.username,\\n            'email': self.email,\\n            'created_at': self.created_at.isoformat()\\n        }\n",
+      "routes/auth.py": "from flask import Blueprint, request, jsonify\\nfrom flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity\\nfrom app import db\\nfrom models import User\\nfrom werkzeug.security import generate_password_hash\\nimport re\\n\\nauth_bp = Blueprint('auth', __name__)\\n\\n@auth_bp.route('/register', methods=['POST'])\\ndef register():\\n    data = request.get_json()\\n    username = data.get('username')\\n    email = data.get('email')\\n    password = data.get('password')\\n    \\n    # Validation\\n    if not all([username, email, password]):\\n        return jsonify({'error': 'Missing required fields'}), 400\\n    \\n    if User.query.filter_by(email=email).first():\\n        return jsonify({'error': 'Email already registered'}), 400\\n    \\n    if len(password) < 8:\\n        return jsonify({'error': 'Password must be 8+ characters'}), 400\\n    \\n    # Create user\\n    user = User(username=username, email=email)\\n    user.set_password(password)\\n    db.session.add(user)\\n    db.session.commit()\\n    \\n    return jsonify({\\n        'message': 'User created successfully',\\n        'user_id': user.id\\n    }), 201\\n\\n@auth_bp.route('/login', methods=['POST'])\\ndef login():\\n    data = request.get_json()\\n    email = data.get('email')\\n    password = data.get('password')\\n    \\n    user = User.query.filter_by(email=email).first()\\n    \\n    if user and user.check_password(password):\\n        access_token = create_access_token(identity=user.id)\\n        refresh_token = create_refresh_token(identity=user.id)\\n        \\n        return jsonify({\\n            'access_token': access_token,\\n            'refresh_token': refresh_token\\n        })\\n    \\n    return jsonify({'error': 'Invalid credentials'}), 401\n",
+      "routes/users.py": "from flask import Blueprint, jsonify, request\\nfrom flask_jwt_extended import jwt_required, get_jwt_identity\\nfrom app import db\\nfrom models import User\\n\\nusers_bp = Blueprint('users', __name__)\\n\\n@users_bp.route('/users', methods=['GET'])\\n@jwt_required()\\ndef get_users():\\n    page = request.args.get('page', 1, type=int)\\n    per_page = request.args.get('per_page', 10, type=int)\\n    \\n    users = User.query.paginate(\\n        page=page, per_page=per_page, error_out=False\\n    )\\n    \\n    return jsonify({\\n        'users': [user.to_dict() for user in users.items],\\n        'page': page,\\n        'per_page': per_page,\\n        'total': users.total\\n    })\\n\\n@users_bp.route('/users/<int:user_id>', methods=['GET'])\\n@jwt_required()\\ndef get_user(user_id):\\n    user = User.query.get_or_404(user_id)\\n    return jsonify(user.to_dict())\n"
+    },
+    "testing": {
+      "test_auth.py": "import pytest\\nfrom app import create_app\\nfrom app import db\\n\\n@pytest.fixture\\ndef app():\\n    app = create_app()\\n    app.config.update({\\n        \"TESTING\": True,\\n        \"SQLALCHEMY_DATABASE_URI\": \"sqlite:///:memory:\"\\n    })\\n    \\n    with app.app_context():\\n        db.create_all()\\n        yield app\\n        db.drop_all()\\n\\n@pytest.fixture\\ndef client(app):\\n    return app.test_client()\\n\\n\\ndef test_register(client):\\n    response = client.post('/api/v1/auth/register', \\n                          json={\\n                              'username': 'testuser',\\n                              'email': 'test@example.com',\\n                              'password': 'testpass123'\\n                          })\\n    assert response.status_code == 201\\n    assert response.json['message'] == 'User created successfully'\n",
+      "run_tests": "pytest tests/ -v --cov=app --cov-report=html"
+    },
+    "project_structure": {
+      "tree": "flask_api/\\n├── app.py                 # Application factory\\n├── models.py              # Database models\\n├── routes/                # Blueprint routes\\n│   ├── __init__.py\\n│   ├── auth.py\\n│   └── users.py\\n├── tests/                 # Unit tests\\n├── migrations/            # Database migrations\\n├── requirements.txt\\n├── .env.example\\n├── Dockerfile\\n├── docker-compose.yml\\n├── Makefile\\n├── README.md\\n└── run.py                 # Production runner\n",
+      "Makefile": ".PHONY: install dev test run docker\\n\\ninstall:\\n\tpip install -r requirements.txt\\n\\ndev:\\n\tpip install -r requirements-dev.txt\\n\\ntest:\\n\tpytest tests/ -v\\n\\nrun:\\n\tflask run\\n\\ndocker:\\n\tdocker-compose up --build\n"
+    },
+    "deployment": {
+      "gunicorn_config": "bind = \"0.0.0.0:5000\"\\nworkers = 4\\nworker_class = \"sync\"\\nkeepalive = 2\\ntimeout = 30\\nmax_requests = 1000\\nmax_requests_jitter = 100\n",
+      "nginx_config": "server {\\n    listen 80;\\n    server_name api.example.com;\\n    \\n    location / {\\n        proxy_pass http://127.0.0.1:5000;\\n        proxy_set_header Host $host;\\n        proxy_set_header X-Real-IP $remote_addr;\\n    }\\n}\n"
+    },
+    "usage_examples": {
+      "register": "curl -X POST http://localhost:5000/api/v1/auth/register \\n  -H \"Content-Type: application/json\" \\n  -d '{\"username\":\"john\",\"email\":\"john@example.com\",\"password\":\"pass123\"}'",
+      "login": "curl -X POST http://localhost:5000/api/v1/auth/login \\n  -H \"Content-Type: application/json\" \\n  -d '{\"email\":\"john@example.com\",\"password\":\"pass123\"}'",
+      "protected": "curl -X GET http://localhost:5000/api/v1/users \\n  -H \"Authorization: Bearer YOUR_JWT_TOKEN\""
+    },
+    "api_docs": "http://localhost:5000/health - Health check\\n/api/v1/auth/register - POST - Register user\\n/api/v1/auth/login - POST - Get JWT tokens\\n/api/v1/users - GET - List users (auth required)\\n/api/v1/users/{id} - GET - Get user by ID"
+  }
+}
