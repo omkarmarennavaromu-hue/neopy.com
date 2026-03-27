@@ -1,0 +1,47 @@
+{
+  "id": "modules-packages",
+  "order": 3,
+  "name": "Modules & Packages",
+  "description": "Organize code into reusable modules and packages, and leverage the Python ecosystem.",
+  "duration": "3 hours",
+  "lessons": [
+    {
+      "title": "Creating and Using Modules",
+      "description": "Learn to create, import, and use modules to organize and reuse code across multiple files.",
+      "keyPoints": [
+        "Modules are Python files containing functions, classes, and variables that can be imported",
+        "Import statements allow access to module contents using dot notation or selective imports",
+        "The __name__ variable helps distinguish script execution from module import",
+        "Module search path (sys.path) determines where Python looks for modules",
+        "Reloading modules with importlib allows dynamic updates during development"
+      ],
+      "example": "# mymodule.py - save this as a separate file\n\"\"\"This is a custom module with utility functions\"\"\"\n\ndef greet(name):\n    \"\"\"Return a greeting message\"\"\"\n    return f\"Hello, {name}!\"\n\ndef add(a, b):\n    \"\"\"Add two numbers\"\"\"\n    return a + b\n\nPI = 3.14159\n\nclass Calculator:\n    \"\"\"Simple calculator class\"\"\"\n    @staticmethod\n    def multiply(a, b):\n        return a * b\n\n# Module guard - code only runs when script is executed directly\nif __name__ == \"__main__\":\n    print(\"Running module directly\")\n    print(greet(\"World\"))\n\n# main.py - importing and using the module\nimport mymodule\n\n# Access module contents\nprint(mymodule.greet(\"Alice\"))        # Hello, Alice!\nprint(mymodule.PI)                    # 3.14159\ncalc = mymodule.Calculator()\nprint(calc.multiply(5, 3))            # 15\n\n# Selective imports\nfrom mymodule import greet, add\nprint(greet(\"Bob\"))                   # Hello, Bob!\nprint(add(10, 20))                    # 30\n\n# Import with alias\nimport mymodule as mm\nprint(mm.greet(\"Charlie\"))            # Hello, Charlie!\n\n# Import all (not recommended for production)\nfrom mymodule import *\nprint(greet(\"Diana\"))\n\n# Checking module path\nimport sys\nprint(sys.path)  # Shows where Python looks for modules\n\n# Reloading modules (useful during development)\nimport importlib\nimportlib.reload(mymodule)"
+    },
+    {
+      "title": "Creating and Organizing Packages",
+      "description": "Structure multiple modules into packages using __init__.py and organize code hierarchies.",
+      "keyPoints": [
+        "Packages are directories containing modules and a special __init__.py file",
+        "__init__.py can initialize package-level variables and control what gets imported",
+        "Subpackages allow nested module organization for complex projects",
+        "Relative imports (from . import module) enable intra-package references",
+        "Package metadata (__version__, __author__) can be defined in __init__.py"
+      ],
+      "example": "# Package structure:\n\"\"\"\nmy_package/\n    __init__.py\n    math_utils.py\n    string_utils.py\n    data_processing/\n        __init__.py\n        csv_handler.py\n        json_handler.py\n    __main__.py\n\"\"\"\n\n# my_package/__init__.py\n\"\"\"Neopy utility package\"\"\"\n__version__ = \"1.0.0\"\n__author__ = \"Neopy Team\"\n\n# Control what gets imported with from package import *\n__all__ = ['math_utils', 'string_utils']\n\n# Import commonly used functions for easier access\nfrom .math_utils import add, multiply\nfrom .string_utils import to_uppercase\n\n# my_package/math_utils.py\ndef add(a, b):\n    return a + b\n\ndef multiply(a, b):\n    return a * b\n\ndef divide(a, b):\n    if b == 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return a / b\n\n# my_package/string_utils.py\ndef to_uppercase(text):\n    return text.upper()\n\ndef reverse_string(text):\n    return text[::-1]\n\n# my_package/data_processing/__init__.py\nfrom .csv_handler import read_csv, write_csv\nfrom .json_handler import read_json, write_json\n\n__all__ = ['read_csv', 'write_csv', 'read_json', 'write_json']\n\n# my_package/data_processing/csv_handler.py\ndef read_csv(filename):\n    print(f\"Reading CSV from {filename}\")\n    return [{\"data\": \"sample\"}]\n\ndef write_csv(filename, data):\n    print(f\"Writing CSV to {filename}\")\n    return True\n\n# my_package/__main__.py - allows package to be run as a script\nif __name__ == \"__main__\":\n    print(\"Running my_package as a script\")\n    print(f\"Version: {__import__('my_package').__version__}\")\n\n# main.py - using the package\nimport my_package\n\n# Access package-level imports\nprint(my_package.add(10, 5))           # 15\nprint(my_package.to_uppercase(\"hello\")) # HELLO\nprint(my_package.__version__)          # 1.0.0\n\n# Import specific submodules\nfrom my_package import math_utils, string_utils\nprint(math_utils.divide(10, 2))        # 5.0\nprint(string_utils.reverse_string(\"Python\"))  # nohtyP\n\n# Import from subpackage\nfrom my_package.data_processing import read_csv, read_json\ncsv_data = read_csv(\"data.csv\")\njson_data = read_json(\"data.json\")\n\n# Using relative imports within package (inside data_processing/__init__.py)\nfrom . import csv_handler  # Relative import\n\n# Running package as a script\n# python -m my_package"
+    },
+    {
+      "title": "Python Standard Library Essentials",
+      "description": "Explore the most useful modules from Python's extensive standard library for common programming tasks.",
+      "keyPoints": [
+        "datetime module handles dates, times, and timezone operations",
+        "random module generates pseudo-random numbers and selections",
+        "os and sys modules provide operating system and system-specific functionality",
+        "collections module offers specialized container datatypes (Counter, defaultdict, deque)",
+        "itertools provides efficient looping and iteration tools",
+        "functools includes higher-order functions and operations on callables",
+        "json and csv modules handle structured data formats"
+      ],
+      "example": "# datetime - date and time operations\nfrom datetime import datetime, date, timedelta\nnow = datetime.now()\nprint(now.strftime(\"%Y-%m-%d %H:%M:%S\"))  # 2024-01-15 14:30:45\ntoday = date.today()\ntomorrow = today + timedelta(days=1)\nprint(tomorrow)  # 2024-01-16\n\n# random - random number generation\nimport random\nprint(random.randint(1, 10))           # Random integer\nprint(random.choice(['a', 'b', 'c']))  # Random choice\nitems = [1, 2, 3, 4, 5]\nrandom.shuffle(items)                  # Shuffle in place\nprint(random.sample(items, 3))         # Random sample\n\n# os and sys - system operations\nimport os\nimport sys\nprint(os.getcwd())                     # Current directory\nprint(os.listdir('.'))                 # List directory contents\nprint(sys.platform)                    # Operating system\nprint(sys.version)                     # Python version\n\n# collections - specialized data structures\nfrom collections import Counter, defaultdict, deque\n\n# Counter - count occurrences\nwords = ['apple', 'banana', 'apple', 'cherry', 'banana', 'apple']\ncounter = Counter(words)\nprint(counter)  # Counter({'apple': 3, 'banana': 2, 'cherry': 1})\n\n# defaultdict - default values for missing keys\nd = defaultdict(list)\nd['key'].append('value')\nprint(d['key'])  # ['value']\n\n# deque - fast append/pop from both ends\nqueue = deque([1, 2, 3])\nqueue.appendleft(0)\nqueue.append(4)\nprint(queue)  # deque([0, 1, 2, 3, 4])\n\n# itertools - efficient iteration tools\nfrom itertools import count, cycle, permutations\n\n# Infinite counter\nfor i in count(1):\n    if i > 5: break\n    print(i)  # 1 2 3 4 5\n\n# Permutations\nitems = ['A', 'B', 'C']\nperms = list(permutations(items, 2))\nprint(perms)  # [('A','B'), ('A','C'), ('B','A'), ('B','C'), ('C','A'), ('C','B')]\n\n# functools - function tools\nfrom functools import partial, lru_cache\n\n# Partial function application\ndef power(base, exponent):\n    return base ** exponent\n\nsquare = partial(power, exponent=2)\ncube = partial(power, exponent=3)\nprint(square(5))  # 25\nprint(cube(5))    # 125\n\n# LRU cache for memoization\n@lru_cache(maxsize=128)\ndef fibonacci(n):\n    if n < 2:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\nprint(fibonacci(30))  # Fast due to caching\n\n# json and csv - data formats\nimport json\nimport csv\n\n# JSON handling\ndata = {'name': 'Alice', 'age': 25, 'city': 'New York'}\njson_str = json.dumps(data, indent=2)\nparsed = json.loads(json_str)\n\n# CSV handling\nwith open('data.csv', 'w', newline='') as f:\n    writer = csv.writer(f)\n    writer.writerow(['Name', 'Age'])\n    writer.writerow(['Alice', 25])\n\nwith open('data.csv', 'r') as f:\n    reader = csv.reader(f)\n    for row in reader:\n        print(row)"
+    }
+  ]
+}
