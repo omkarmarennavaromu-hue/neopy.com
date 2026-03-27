@@ -1,0 +1,84 @@
+{
+  "data_analysis_project.json": {
+    "project": {
+      "name": "Sales Analytics Dashboard",
+      "description": "Complete data analysis pipeline: ETL, exploratory analysis, statistical tests, visualizations, and executive dashboard using Python, Pandas, Plotly, and Streamlit",
+      "version": "3.0.0",
+      "author": "Data Analyst",
+      "tech_stack": ["pandas", "numpy", "plotly", "streamlit", "scipy", "seaborn", "sweetviz"],
+      "business_objective": "Identify top-performing products, customer segments, and sales trends to optimize inventory and marketing strategy"
+    },
+    "dataset": {
+      "description": "Synthetic sales dataset with 100K records spanning 3 years",
+      "schema": {
+        "order_id": "int - Unique order identifier",
+        "customer_id": "int - Customer identifier",
+        "order_date": "datetime - Order placement date",
+        "product_category": "str - ['Electronics', 'Clothing', 'Home', 'Books']",
+        "product_name": "str - Product name",
+        "quantity": "int - Units ordered (1-10)",
+        "unit_price": "float - Price per unit ($)",
+        "total_amount": "float - quantity * unit_price",
+        "region": "str - ['North', 'South', 'East', 'West']",
+        "payment_method": "str - ['Credit Card', 'Debit Card', 'PayPal']"
+      },
+      "sample_data": "order_id,customer_id,order_date,product_category,product_name,quantity,unit_price,total_amount,region,payment_method\\n1,1001,2023-01-15,iPhone 14,Smartphone,1,999.99,999.99,North,Credit Card\\n2,1002,2023-01-16,Laptop Pro,Computer,1,1499.99,1499.99,South,Credit Card\\n3,1003,2023-01-17,T-Shirt Summer,Casual Wear,2,29.99,59.98,East,PayPal",
+      "generate_sample": "python scripts/generate_data.py --records 100000 --output data/sales_data.csv"
+    },
+    "project_structure": {
+      "tree": "sales_analytics/\\n├── data/                   # Raw & processed data\\n│   ├── raw/\\n│   └── processed/\\n├── notebooks/              # EDA notebooks\\n├── src/                    # Analysis modules\\n│   ├── etl.py\\n│   ├── analysis.py\\n│   └── viz.py\\n├── dashboard/              # Streamlit app\\n├── reports/                # Generated reports\\n├── requirements.txt\\n├── Makefile\\n├── README.md\\n└── config.yaml",
+      "requirements.txt": "pandas==2.0.3\\nnumpy==1.24.3\\nplotly==5.17.0\\nstreamlit==1.28.1\\nseaborn==0.12.2\\nscipy==1.11.3\\nscikit-learn==1.3.0\\nsweetviz==2.1.4\\npython-dateutil==2.8.2\\npyyaml==6.0.1\\nopenpyxl==3.1.2"
+    },
+    "pipeline_steps": [
+      {
+        "step": 1,
+        "title": "ETL Pipeline",
+        "description": "Extract, transform, clean sales data",
+        "code": "import pandas as pd\\nimport numpy as np\\nfrom datetime import datetime\\nimport logging\\n\\n\\ndef etl_pipeline(input_path: str, output_path: str) -> None:\\n    \"\"\"Complete ETL pipeline for sales data.\"\"\"\\n    \\n    # Extract\\n    logging.info('📥 Loading raw data...')\\n    df = pd.read_csv(input_path)\\n    \\n    # Transform\\n    df['order_date'] = pd.to_datetime(df['order_date'])\\n    df['month_year'] = df['order_date'].dt.to_period('M')\\n    df['week_of_year'] = df['order_date'].dt.isocalendar().week\\n    df['customer_lifetime_value'] = df.groupby('customer_id')['total_amount'].cumsum()\\n    \\n    # Clean\\n    df = df.dropna()\\n    df = df[df['quantity'] > 0]\\n    df = df[df['unit_price'] > 0]\\n    \\n    # Feature engineering\\n    df['profit_margin'] = np.random.uniform(0.1, 0.4, len(df))  # Simulated\\n    df['gross_profit'] = df['total_amount'] * df['profit_margin']\\n    \\n    # Validate\\n    assert df['total_amount'].sum() > 0, 'No valid sales found'\\n    \\n    # Save\\n    df.to_csv(output_path, index=False)\\n    logging.info(f'✅ ETL complete: {len(df):,} records processed')\\n    \\n    return df\\n\\n# Usage\\nprocessed_df = etl_pipeline('data/raw/sales_data.csv', 'data/processed/sales_clean.csv')\n",
+        "output": "✅ ETL complete: 99,847 records processed"
+      },
+      {
+        "step": 2,
+        "title": "Exploratory Data Analysis",
+        "description": "Statistical analysis and insights generation",
+        "code": "import pandas as pd\\nimport numpy as np\\nfrom scipy import stats\\nimport sweetviz as sv\\n\\n\\ndef exploratory_analysis(df: pd.DataFrame) -> dict:\\n    \"\"\"Generate comprehensive EDA report.\"\"\"\\n    insights = {}\\n    \\n    # Basic stats\\n    insights['total_revenue'] = df['total_amount'].sum()\\n    insights['total_orders'] = len(df)\\n    insights['avg_order_value'] = df['total_amount'].mean()\\n    insights['total_customers'] = df['customer_id'].nunique()\\n    \\n    # Top categories\\n    top_categories = (\\n        df.groupby('product_category')['total_amount']\\n        .sum()\\n        .sort_values(ascending=False)\\n        .round(2)\\n    )\\n    insights['top_category'] = top_categories.iloc[0].to_dict()\\n    \\n    # Monthly trends\\n    monthly_sales = df.groupby('month_year')['total_amount'].sum()\\n    growth_rate = monthly_sales.pct_change().mean() * 100\\n    insights['monthly_growth_rate'] = f'{growth_rate:.1f}%'\\n    \\n    # Statistical tests\\n    electronics_sales = df[df['product_category'] == 'Electronics']['total_amount']\\n    clothing_sales = df[df['product_category'] == 'Clothing']['total_amount']\\n    \\n    t_stat, p_value = stats.ttest_ind(electronics_sales, clothing_sales)\\n    insights['electronics_vs_clothing_pvalue'] = p_value\\n    \\n    # Customer analysis\\n    customer_stats = df.groupby('customer_id').agg({\\n        'total_amount': ['count', 'sum', 'mean'],\\n        'quantity': 'sum'\\n    }).round(2)\\n    insights['top_customer'] = customer_stats['total_amount']['sum'].idxmax()\\n    \\n    # Generate Sweetviz report\\n    report = sv.analyze(df)\\n    report_html = 'reports/sweetviz_report.html'\\n    report.save_html(report_html)\\n    \\n    return insights\\n\\n# Usage\\ndf = pd.read_csv('data/processed/sales_clean.csv')\\ninsights = exploratory_analysis(df)\\nprint(insights)\n",
+        "sample_output": "{\n  'total_revenue': 1256789.45,\n  'avg_order_value': 156.78,\n  'top_category': {'Electronics': 856432.12},\n  'monthly_growth_rate': '3.2%',\n  'electronics_vs_clothing_pvalue': 0.023\n}"
+      },
+      {
+        "step": 3,
+        "title": "Advanced Visualizations",
+        "description": "Interactive Plotly charts for dashboard",
+        "code": "import plotly.express as px\\nimport plotly.graph_objects as go\\nimport plotly.figure_factory as ff\\nfrom plotly.subplots import make_subplots\\nimport pandas as pd\\n\\n\\ndef create_visualizations(df: pd.DataFrame) -> None:\\n    \"\"\"Generate comprehensive dashboard visualizations.\"\"\"\\n    \\n    # 1. Sales trend\\n    monthly_df = df.groupby(['month_year', 'product_category'])['total_amount'].sum().reset_index()\\n    fig1 = px.line(monthly_df, \\n                   x='month_year', y='total_amount', \\n                   color='product_category',\\n                   title='Monthly Sales Trend by Category')\\n    fig1.update_xaxes(type='category')\\n    fig1.write_html('reports/sales_trend.html')\\n    \\n    # 2. Top products pie chart\\n    top_products = df.groupby('product_name')['total_amount'].sum().nlargest(10)\\n    fig2 = px.pie(values=top_products.values, names=top_products.index,\\n                  title='Top 10 Products by Revenue')\\n    fig2.write_html('reports/top_products.html')\\n    \\n    # 3. Regional heatmap\\n    region_sales = df.groupby(['region', 'product_category'])['total_amount'].sum().unstack().fillna(0)\\n    fig3 = px.imshow(region_sales, aspect='auto', color_continuous_scale='Viridis',\\n                     title='Sales Heatmap: Region vs Category')\\n    fig3.write_html('reports/regional_heatmap.html')\\n    \\n    # 4. Distribution + box plot\\n    fig4 = make_subplots(\\n        rows=2, cols=2,\\n        subplot_titles=('Order Value Distribution', 'Quantity Box Plot',\\n                       'Sales by Region', 'Category Revenue')\\n    )\\n    \\n    # Distribution\\n    fig4.add_trace(\\n        go.Histogram(x=df['total_amount'], name='Order Value', nbinsx=50),\\n        row=1, col=1\\n    )\\n    \\n    # Box plot\\n    fig4.add_trace(\\n        go.Box(y=df['quantity'], name='Quantity', boxpoints='outliers'),\\n        row=1, col=2\\n    )\\n    \\n    # Regional bar\\n    region_total = df.groupby('region')['total_amount'].sum()\\n    fig4.add_trace(\\n        go.Bar(x=region_total.index, y=region_total.values, name='Region Sales'),\\n        row=2, col=1\\n    )\\n    \\n    # Category revenue\\n    cat_total = df.groupby('product_category')['total_amount'].sum()\\n    fig4.add_trace(\\n        go.Bar(x=cat_total.index, y=cat_total.values, name='Category Revenue'),\\n        row=2, col=2\\n    )\\n    \\n    fig4.update_layout(height=800, showlegend=False)\\n    fig4.write_html('reports/dashboard_overview.html')\\n    \\n    print('📊 All visualizations saved to reports/')\\n\\n# Usage\\ndf = pd.read_csv('data/processed/sales_clean.csv')\\ncreate_visualizations(df)\n",
+        "output_files": ["reports/sales_trend.html", "reports/top_products.html", "reports/regional_heatmap.html", "reports/dashboard_overview.html"]
+      },
+      {
+        "step": 4,
+        "title": "Interactive Streamlit Dashboard",
+        "description": "Executive dashboard with filters and metrics",
+        "code": "import streamlit as st\\nimport pandas as pd\\nimport plotly.express as px\\nfrom src.analysis import exploratory_analysis\\nfrom src.viz import create_visualizations\\n\\nst.set_page_config(page_title='Sales Analytics', layout='wide')\\n\\n@st.cache_data\\ndef load_data():\\n    return pd.read_csv('data/processed/sales_clean.csv')\\n\\nst.title('🏪 Sales Analytics Dashboard')\\nst.markdown('---')\\n\\n# Sidebar filters\\ncol1, col2, col3 = st.columns(3)\\nwith col1:\\n    region = st.multiselect('Region', ['North', 'South', 'East', 'West'], default=['North', 'South', 'East', 'West'])\\nwith col2:\\n    category = st.multiselect('Category', ['Electronics', 'Clothing', 'Home', 'Books'], default=['Electronics', 'Clothing', 'Home', 'Books'])\\nwith col3:\\n    start_date = st.date_input('Start Date', value=pd.to_datetime('2023-01-01'))\\n\\n# Load & filter data\\n@st.cache_data\\ndef get_filtered_data(df, region, category, start_date):\\n    filtered = df[\\n        (df['region'].isin(region)) &\\n        (df['product_category'].isin(category)) &\\n        (df['order_date'] >= pd.to_datetime(start_date))\\n    ]\\n    return filtered\\n\\n# Main dashboard\\nif 'df' not in st.session_state:\\n    st.session_state.df = load_data()\\n\\nfiltered_df = get_filtered_data(st.session_state.df, region, category, start_date)\\n\\n# KPIs\\ncol1, col2, col3, col4 = st.columns(4)\\n\\nwith col1:\\n    st.metric('Total Revenue', f'${filtered_df[\"total_amount\"].sum():,.0f}')\\nwith col2:\\n    st.metric('Total Orders', f'{len(filtered_df):,}')\\nwith col3:\\n    st.metric('Avg Order Value', f'${filtered_df[\"total_amount\"].mean():.0f}')\\nwith col4:\\n    st.metric('Unique Customers', f'{filtered_df[\"customer_id\"].nunique():,}')\\n\\n# Charts\\ncol1, col2 = st.columns(2)\\n\\nwith col1:\\n    # Monthly trend\\n    monthly = filtered_df.groupby(filtered_df['order_date'].dt.to_period('M'))['total_amount'].sum().reset_index()\\n    monthly['month'] = monthly['order_date'].astype(str)\\n    fig1 = px.line(monthly, x='month', y='total_amount', \\n                   title='Monthly Sales Trend')\\n    st.plotly_chart(fig1, use_container_width=True)\\n\\nwith col2:\\n    # Category breakdown\\n    cat_sales = filtered_df.groupby('product_category')['total_amount'].sum()\\n    fig2 = px.pie(values=cat_sales.values, names=cat_sales.index,\\n                  title='Revenue by Category')\\n    st.plotly_chart(fig2, use_container_width=True)\\n\\n# Insights report\\nif st.button('🔍 Generate Insights Report'):\\n    with st.spinner('Analyzing...'):\\n        insights = exploratory_analysis(filtered_df)\\n        st.json(insights)\\n\\nst.markdown('---')\\nst.caption('👨‍💼 Sales Analytics Dashboard v3.0.0')\n",
+        "run_command": "streamlit run dashboard/app.py"
+      }
+    ],
+    "quick_start": {
+      "setup": "pip install -r requirements.txt && python scripts/generate_data.py && python src/etl.py",
+      "launch": "streamlit run dashboard/app.py",
+      "full_pipeline": "make analyze",
+      "Makefile": ".PHONY: install data etl analyze dashboard clean\\n\\ninstall:\\n\tpip install -r requirements.txt\\n\\ndata:\\n\tpython scripts/generate_data.py --records 100000\\n\\netl:\\n\tpython src/etl.py\\n\\nanalyze:\\n\tpython src/etl.py && python src/analysis.py && python src/viz.py\\n\\ndashboard:\\n\tstreamlit run dashboard/app.py\\n\\nclean:\\n\trm -rf data/processed/ reports/ *.html"
+    },
+    "key_insights_template": {
+      "revenue": "Total revenue: $1.25M across {total_orders:,} orders",
+      "growth": "Monthly growth rate: {growth_rate}",
+      "top_category": "Top category: {top_category} ({revenue_share}%)",
+      "recommendations": [
+        "📈 Focus inventory on Electronics (54% revenue)",
+        "🌍 Expand to West region (highest growth)",
+        "💰 Target high-value customers (top 10% = 45% revenue)",
+        "🎯 Promote bundle deals (avg order $156)"
+      ]
+    },
+    "deployment": {
+      "streamlit_cloud": "Connect GitHub repo → Deploy → Share dashboard URL",
+      "docker": "docker build -t sales-dashboard . && docker run -p 8501:8501 sales-dashboard"
+    }
+  }
+}
